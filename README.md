@@ -1,5 +1,18 @@
 # ⚡Bitamin 9th NLP/RS Conference⚡
 
+## requirements 사용법
+1. 원하는 가상환경 activate
+2. requirements.txt가 있는 경로로 이동 (중요) (cd 명령어로 requirements.txt가 있는 곳으로 이동)
+3. `pip install -r requirements.txt`
+4. 끝
+
+## pip freeze 사용법
+### pip freeze란?
+현재 활성화(activated)된 환경(대부분은 가상환경)에 설치된 패키지들의 목록을 나열해줌
+이것을 requirements.txt로 뺄 수 있는데 명령어는 다음과 같다
+`pip freeze > requirements.txt`
+이러면 터미널 상 현재 디렉토리에 requirements.txt가 생성된다.
+
 
 ---
 
