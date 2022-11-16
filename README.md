@@ -13,6 +13,18 @@
 `pip freeze > requirements.txt`
 이러면 터미널 상 현재 디렉토리에 requirements.txt가 생성된다.
 
+## git branch
+### 브랜치 생성
+`git branch "새로 만들 브랜치 이름"`  
+**주의해야 할 점** : 브랜치 만들때는 현재 브랜치 기준으로 복사됨(main으로 이동 후 생성 권장!!!!!)
+
+### 브랜치 이동
+`git checkout "이동할 브랜치 이름"`  
+
+### 브랜치 명명 규칙
+"feature_#XX/자신의 깃허브 닉네임"
+여기서 #XX은 이슈번호
+feature_#4/augustinLib
 
 ---
 
