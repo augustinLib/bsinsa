@@ -17,6 +17,10 @@
 - [Try-On Model Using GAN](https://github.com/switchablenorms/DeepFashion_Try_On)
 
 - [Fashion Recommendation Model](https://github.com/kang205/DVBPR)
+
+- [Fashion Recommendation Model] https://github.com/khanhnamle1994/fashion-recommendation
+
+- [Fashion Recommendation Model] https://github.com/Wp-Zhang/H-M-Fashion-RecSys
 --- 
 ## Tools
 
