@@ -13,6 +13,7 @@ def define_argparse():
 
     p.add_argument("--url", required=True)
     p.add_argument("--pages", type=int)
+    p.add_argument("--type", required=True)
 
     config = p.parse_args()
     return config
@@ -52,10 +53,10 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
                 error_num += 1
                 continue
 
-        time.sleep(random.randint(1,4))
+        time.sleep(random.randint(2,6))
             
         
 
 print(f"{error_num} items omitted!")
 link_df= pd.DataFrame(links)
-link_df.to_csv("./crawling/links/test_link.csv")
+link_df.to_csv(f"./crawling/links/{config.type}.csv")
