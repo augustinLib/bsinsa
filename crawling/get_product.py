@@ -7,6 +7,7 @@ import time
 import random
 from urllib import request
 import argparse
+from tqdm import tqdm
 
 p = argparse.ArgumentParser()
 p.add_argument(
@@ -23,7 +24,7 @@ url_list = df.iloc[:,1]
 options = webdriver.ChromeOptions()
 # 탭 간 이동 활성화
 options.add_argument("no-sandbox")
-#options.add_argument("headless")
+options.add_argument("headless")
 
 product_num_list = []
 main_category_list = []
@@ -38,7 +39,7 @@ price_list = []
 
 with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) as driver:
     omitted_num = 0
-    for url in url_list:
+    for url in tqdm(url_list):
         try:
             driver.get(url)
             driver.implicitly_wait(5)
@@ -112,8 +113,8 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
 
     print(f"{config.file_name} : {omitted_num} omitted!")
     product_df = pd.DataFrame([product_num_list,
-                            main_category_list,
-                            sub_category_list,
+                            #main_category_list,
+                            #sub_category_list,
                             product_name_list,
                             brand_list,
                             year_sold_list,
