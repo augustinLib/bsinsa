@@ -27,7 +27,7 @@ url = config.url
 options = webdriver.ChromeOptions()
 # 탭 간 이동 활성화
 options.add_argument("no-sandbox")
-# options.add_argument("headless")
+options.add_argument("headless")
 
 links = []
 with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) as driver:
