@@ -6,12 +6,24 @@ import pandas as pd
 import time
 import random
 from urllib import request
+import argparse
 
-url_list = ["https://www.musinsa.com/app/goods/1149328"]
+p = argparse.ArgumentParser()
+p.add_argument(
+        "--file_name",
+        required=True,
+        help="insert model name"
+)
+
+config = p.parse_args()
+
+
+df = pd.read_csv(f"./crawling/links/{config.file_name}.csv")
+url_list = df.iloc[:,1]
 options = webdriver.ChromeOptions()
 # 탭 간 이동 활성화
 options.add_argument("no-sandbox")
-# options.add_argument("headless")
+options.add_argument("headless")
 
 product_num_list = []
 main_category_list = []
@@ -90,7 +102,7 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
                 "#detail_bigimg > div > img").get_attribute("src")
             
         
-        request.urlretrieve(image_url, f"./{product_num}.jpg")
+        request.urlretrieve(image_url, f"./crawling/data/image/{product_num}.jpg")
         time.sleep(random.randint(2,6))
 
     
@@ -103,4 +115,5 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
                             like_list,
                             rate_list,
                             price_list])
-    print(product_df)
+    
+    product_df.to_csv(f"./crawling/data/dataframe/{config.file_name}_info.csv")
