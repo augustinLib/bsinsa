@@ -6,12 +6,24 @@ import pandas as pd
 import time
 import random
 from urllib import request
+import argparse
 
-url_list = ["https://www.musinsa.com/app/goods/1149328"]
+p = argparse.ArgumentParser()
+p.add_argument(
+        "--file_name",
+        required=True,
+        help="insert model name"
+)
+
+config = p.parse_args()
+
+
+df = pd.read_csv(f"./crawling/links/{config.file_name}.csv")
+url_list = df.iloc[:,1]
 options = webdriver.ChromeOptions()
 # 탭 간 이동 활성화
 options.add_argument("no-sandbox")
-# options.add_argument("headless")
+#options.add_argument("headless")
 
 product_num_list = []
 main_category_list = []
@@ -39,16 +51,16 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
         product_num_list.append(product_num)
 
 
-        main_category = driver.find_element(
-                By.CSS_SELECTOR,
-                "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)")
-        main_category_list.append(main_category.text)
+        # main_category = driver.find_element(
+        #         By.CSS_SELECTOR,
+        #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)")
+        # main_category_list.append(main_category.text)
 
 
-        sub_category = driver.find_element(
-                By.CSS_SELECTOR,
-                "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
-        sub_category_list.append(sub_category.text)
+        # sub_category = driver.find_element(
+        #         By.CSS_SELECTOR,
+        #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
+        # sub_category_list.append(sub_category.text)
         
 
         product_name =  driver.find_element(
@@ -74,26 +86,31 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
                 f"#product-top-like > p.product_article_contents.goods_like_{product_num} > span")
         like_list.append(like.text)
 
-
-        rate = driver.find_element(
+        try:
+            rate = driver.find_element(
                 By.CSS_SELECTOR,
                 "#product_order_info > div.explan_product.product_info_section > ul > li:nth-child(6) > p.product_article_contents > a > span.prd-score__rating")
-        rate_list.append(rate.text)
+            rate_list.append(rate.text)
+
+        except:
+            rate_list.append(None)
         
         price = driver.find_element(
                 By.CSS_SELECTOR,
-                "#goods_price > del")
+                "#goods_price")
         price_list.append(price.text)
+        
 
         image_url = driver.find_element(
                 By.CSS_SELECTOR,
                 "#detail_bigimg > div > img").get_attribute("src")
             
         
-        request.urlretrieve(image_url, f"./{product_num}.jpg")
+        request.urlretrieve(image_url, f"./crawling/data/image/{product_num}.jpg")
         time.sleep(random.randint(2,6))
+        
 
-    
+    print(f"{config.file_name} : {omitted_num} omitted!")
     product_df = pd.DataFrame([product_num_list,
                             main_category_list,
                             sub_category_list,
@@ -103,4 +120,5 @@ with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=
                             like_list,
                             rate_list,
                             price_list])
-    print(product_df)
+    
+    product_df.to_csv(f"./crawling/data/dataframe/{config.file_name}_info.csv")
