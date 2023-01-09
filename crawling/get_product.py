@@ -35,91 +35,122 @@ year_sold_list = []
 like_list = []
 rate_list = []
 price_list = []
+tag_list = []
 
 
 with webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) as driver:
     omitted_num = 0
     for url in tqdm(url_list):
         try:
-            driver.get(url)
-            driver.implicitly_wait(5)
+                driver.get(url)
+                driver.implicitly_wait(5)
+                product_num = url.split("/")[-1]
+                
+
+
+                # main_category = driver.find_element(
+                #         By.CSS_SELECTOR,
+                #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)")
+                # main_category_list.append(main_category.text)
+
+
+                # sub_category = driver.find_element(
+                #         By.CSS_SELECTOR,
+                #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
+                # sub_category_list.append(sub_category.text)
+
+
+                product_name =  driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > span > em")
+                
+
+
+                brand = driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#product_order_info > div.explan_product.product_info_section > ul > li:nth-child(1) > p.product_article_contents > strong > a")
+                
+
+
+                year_sold = driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#sales_1y_qty")
+                if len(year_sold.text) == 0:
+                        omitted_num +=1
+                        continue
+
+
+                like = driver.find_element(
+                        By.CSS_SELECTOR,
+                        f"#product-top-like > p.product_article_contents.goods_like_{product_num} > span")
+                if len(like.text) == 0:
+                        omitted_num +=1
+                        continue
+
+
+                rate = driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#product_order_info > div.explan_product.product_info_section > ul > li:nth-child(6) > p.product_article_contents > a > span.prd-score__rating")
+                if len(rate.text) == 0:
+                        omitted_num +=1
+                        continue
+
+                price = driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#goods_price")
+                
+
+
+                image_url = driver.find_element(
+                        By.CSS_SELECTOR,
+                        "#detail_bigimg > div > img").get_attribute("src")
+                
+                tags = driver.find_elements(
+                    By.CSS_SELECTOR,
+                    "#product_order_info > div.explan_product.product_info_section > ul > li.article-tag-list.list a"
+                )
+                
+                temp_tag_list = []
+                for tag in tags:
+                    temp_tag_list.append(tag.text[1:])
+
+                tag_str = ",".join(temp_tag_list)
+                if len(tag_str) == 0:
+                        omitted_num +=1
+                        continue
+                
+
 
         except:
             omitted_num +=1
             continue
 
-        product_num = url.split("/")[-1]
+
         product_num_list.append(product_num)
-
-
-        # main_category = driver.find_element(
-        #         By.CSS_SELECTOR,
-        #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(1)")
-        # main_category_list.append(main_category.text)
-
-
-        # sub_category = driver.find_element(
-        #         By.CSS_SELECTOR,
-        #         "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > div.product_info > p > a:nth-child(2)")
-        # sub_category_list.append(sub_category.text)
-        
-
-        product_name =  driver.find_element(
-                By.CSS_SELECTOR,
-                "#page_product_detail > div.right_area.page_detail_product > div.right_contents.section_product_summary > span > em")
         product_name_list.append(product_name.text)
-
-
-        brand = driver.find_element(
-                By.CSS_SELECTOR,
-                "#product_order_info > div.explan_product.product_info_section > ul > li:nth-child(1) > p.product_article_contents > strong > a")
         brand_list.append(brand.text)
-
-
-        year_sold = driver.find_element(
-                By.CSS_SELECTOR,
-                "#sales_1y_qty")
         year_sold_list.append(year_sold.text)
-
-
-        like = driver.find_element(
-                By.CSS_SELECTOR,
-                f"#product-top-like > p.product_article_contents.goods_like_{product_num} > span")
         like_list.append(like.text)
-
-        try:
-            rate = driver.find_element(
-                By.CSS_SELECTOR,
-                "#product_order_info > div.explan_product.product_info_section > ul > li:nth-child(6) > p.product_article_contents > a > span.prd-score__rating")
-            rate_list.append(rate.text)
-
-        except:
-            rate_list.append(None)
-        
-        price = driver.find_element(
-                By.CSS_SELECTOR,
-                "#goods_price")
+        rate_list.append(rate.text)
         price_list.append(price.text)
-        
-
-        image_url = driver.find_element(
-                By.CSS_SELECTOR,
-                "#detail_bigimg > div > img").get_attribute("src")
-            
-        
+        tag_list.append(tag_str)
         request.urlretrieve(image_url, f"./crawling/data/image/{product_num}.jpg")
-        time.sleep(random.randint(2,6))
-        
+        time.sleep(random.uniform(0,1))
 
-    print(f"{config.file_name} : {omitted_num} omitted!")
-    product_df = pd.DataFrame([product_num_list,
+        product_df = pd.DataFrame({"product_num" :product_num_list,
                             #main_category_list,
                             #sub_category_list,
-                            product_name_list,
-                            brand_list,
-                            year_sold_list,
-                            like_list,
-                            rate_list,
-                            price_list])
+                            "product_name" : product_name_list,
+                            "brand" : brand_list,
+                            "year_sold" : year_sold_list,
+                            "like" : like_list,
+                            "rate" : rate_list,
+                            "price" : price_list,
+                            "tag" : tag_list
+                            })
     
-    product_df.to_csv(f"./crawling/data/dataframe/{config.file_name}_info.csv")
+        product_df.to_csv(f"./crawling/data/dataframe/{config.file_name}_info.csv")
+        
+
+    print()
+    print(f"{config.file_name} : {omitted_num} omitted!")
