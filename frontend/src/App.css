@@ -2,6 +2,10 @@
   text-align: center;
 }
 /* components/Buttons/HeaderButton  */
+.home {
+  flex-direction: column;
+}
+
 .Header {
   display: flex;
   flex-direction: row-reverse;
