@@ -9,6 +9,7 @@ from urllib import request
 import argparse
 from tqdm import tqdm
 
+
 p = argparse.ArgumentParser()
 p.add_argument(
         "--file_name",
@@ -25,6 +26,8 @@ options = webdriver.ChromeOptions()
 # 탭 간 이동 활성화
 options.add_argument("no-sandbox")
 options.add_argument("headless")
+
+
 
 product_num_list = []
 main_category_list = []
