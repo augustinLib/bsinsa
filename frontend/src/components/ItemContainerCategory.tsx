@@ -16,7 +16,7 @@ const ItemBoxBorder = styled.div`
   gap: 20px;
 
   position: relative;
-  width: 25vw;
+  width: 27vw;
   min-width: 300px;
   height: 60vh;
   min-height: 400px;
@@ -50,12 +50,6 @@ const ItemBoxText = styled.div<{ isTitle: boolean }>`
   color: #000000;
 `;
 
-const ImgContainer = styled.img`
-  position: relative;
-  max-width: 90%;
-  max-height: 60%;
-`;
-
 const ItemContainerHome = ({
   imgSrc,
   color,
@@ -70,7 +64,7 @@ const ItemContainerHome = ({
           <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
           <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
         </TextContainer>
-        <ImgContainer alt="item" src={imgSrc}></ImgContainer>
+        <img alt="item" src={imgSrc} width={"90%"}></img>
       </ItemBoxBorder>
     </>
   );
