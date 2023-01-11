@@ -17,7 +17,9 @@ const ItemBoxBorder = styled.div`
 
   position: relative;
   width: 27vw;
-  height: 60vh;
+  min-width: 300px;
+  height: 55vh;
+  min-height: 400px;
 
   background: ${(props) => props.color || "#D6D6D6"};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -43,7 +45,7 @@ const ItemBoxText = styled.div<{ isTitle: boolean }>`
   text-align: left;
   font-family: "Work Sans";
   font-weight: ${(props) => (props.isTitle ? 700 : 500)};
-  font-size: ${(props) => (props.isTitle ? "20px" : "18px")};
+  font-size: ${(props) => (props.isTitle ? "x-large" : "large")};
 
   color: #000000;
 `;

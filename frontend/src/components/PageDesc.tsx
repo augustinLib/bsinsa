@@ -9,6 +9,7 @@ const PageDescTextContainer = styled.div`
   margin: 0;
   background: #ebebeb;
   text-align: left;
+  min-width: 950px;
 `;
 
 const PageDescText = styled.span<{ position: "first" | "second" }>`
