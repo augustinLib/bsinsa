@@ -4,8 +4,8 @@ import styled from "styled-components";
 const PageDescTextContainer = styled.div`
   position: absolute;
   width: 95vw;
-  height: 70px;
-  padding: 60px 0vw 0vh 5vw;
+  height: 60px;
+  padding: 50px 0vw 0vh 5vw;
   margin: 0;
   background: #ebebeb;
   text-align: left;
