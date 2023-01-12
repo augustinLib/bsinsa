@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import TryOn from "./pages/TryOn";
 import Profile from "./pages/Profile";
 import ItemList from "./pages/ItemList";
+import Item from "./pages/Item";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/tryon" element={<TryOn />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/category/:id" element={<ItemList />} />
+          <Route path="/item/:id" element={<Item />} />
         </Routes>
       </div>
     </BrowserRouter>

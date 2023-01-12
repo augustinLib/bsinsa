@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-import Header from "../components/Header";
-import PageDesc from "../components/PageDesc";
+import Header from "../components/HomeComponents/Header";
+import PageDesc from "../components/HomeComponents/PageDesc";
 import Navigation from "../components/Navigation/Navigation";
 import { HomeContainer, NavContainer } from "./Home";
 import propMatcher, { propMatcherProps } from "../etc/propMatcher";

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
-import { TextContainer } from "../ItemContainerHome";
+import { TextContainer } from "../HomeComponents/ItemContainerHome";
+import { useNavigate } from "react-router-dom";
 
 export const FourGridBorder = styled.div`
   width: 25vw;
@@ -71,8 +72,9 @@ export interface ArrayProps {
 
 const ItemOfFour = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
+  const navigate = useNavigate();
   return (
-    <FourGridComponent>
+    <FourGridComponent onClick={(): void => navigate(`/item/${product_num}`)}>
       <FourGridTextContainer>
         <FourGridText isTitle={true}>{product_name}</FourGridText>
         <FourGridText isTitle={false}>{price}</FourGridText>

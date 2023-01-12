@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { GridImg } from "./FourGrid";
 import { ItemProps } from "./FourGrid";
+import { useNavigate } from "react-router-dom";
 
 const ItemBoxBorder = styled.div`
   display: flex;
@@ -54,9 +55,12 @@ const OneGridImg = styled(GridImg)`
 // TODO : fix it using Array Structure
 const OneGrid = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
+  const navigate = useNavigate();
   return (
     <>
-      <ItemBoxBorder color={"white"}>
+      <ItemBoxBorder
+        color={"white"}
+        onClick={(): void => navigate(`/item/${product_num}`)}>
         <TextContainer>
           <ItemBoxText isTitle={true}>{product_name}</ItemBoxText>
           <ItemBoxText isTitle={false}>{price}</ItemBoxText>

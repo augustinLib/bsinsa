@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Buttons/Button";
-import LogoButton from "./Buttons/Logo";
+import Button from "../Buttons/Button";
+import LogoButton from "../Buttons/Logo";
 
 const Header = () => {
   const navigate = useNavigate();

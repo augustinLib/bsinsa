@@ -1,9 +1,10 @@
 import styled, { css } from "styled-components";
 import React from "react";
 
-import { TextContainer } from "../ItemContainerHome";
+import { TextContainer } from "../HomeComponents/ItemContainerHome";
 import { FourGridBorder, FourGridComponent, FourGridText } from "./FourGrid";
 import { ItemProps, ArrayProps } from "./FourGrid";
+import { useNavigate } from "react-router-dom";
 
 const NineGridBorder = styled(FourGridBorder)`
   grid-template-columns: 1fr 1fr 1fr;
@@ -66,8 +67,10 @@ export const GridImg = styled.img`
 
 const ItemOfNineBig = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
+  const navigate = useNavigate();
   return (
-    <NineGridComponentBig>
+    <NineGridComponentBig
+      onClick={(): void => navigate(`/item/${product_num}`)}>
       <NineGridTextContainer isBig={true}>
         <NineGridText isBig={true} isTitle={true}>
           {product_name}
@@ -83,8 +86,10 @@ const ItemOfNineBig = ({ product_num, product_name, price }: ItemProps) => {
 
 const ItemOfNineSmall = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
+  const navigate = useNavigate();
   return (
-    <NineGridComponentSmall>
+    <NineGridComponentSmall
+      onClick={(): void => navigate(`/item/${product_num}`)}>
       <NineGridTextContainer isBig={false}>
         <NineGridText isBig={false} isTitle={false}>
           {price}

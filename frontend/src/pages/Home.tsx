@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import Header from "../components/Header";
-import ItemContainerHome from "../components/ItemContainerHome";
-import PageDesc from "../components/PageDesc";
+import Header from "../components/HomeComponents/Header";
+import ItemContainerHome from "../components/HomeComponents/ItemContainerHome";
+import PageDesc from "../components/HomeComponents/PageDesc";
 import Navigation from "../components/Navigation/Navigation";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const HomeContainer = styled.div`
   display: flex;
@@ -29,10 +30,12 @@ export interface ItemProp {
   product_num: number;
   category: string;
   price: string;
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Home = () => {
   const [data, setData] = useState<ItemProp[]>([]);
+  const navigate = useNavigate();
 
   const searchApi = () => {
     axios.get("http://0.0.0.0:8000/home-data").then((response) => {
@@ -62,6 +65,7 @@ const Home = () => {
             color={"white"}
             price={item.price}
             name={item.category}
+            onClick={(): void => navigate(`/item/${item.product_num}`)}
           />
         ))}
       </HomeContainer>

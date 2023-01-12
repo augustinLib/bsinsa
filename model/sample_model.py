@@ -30,3 +30,6 @@ class Model:
 
   def get_random_data_by_category(self, category, num):
     return self.data[self.data['category'] == self.converter[category]].sample(num)[['product_num', 'product_name', 'price']].to_json(orient='records')
+
+  def get_item(self, product_num):
+    return self.data[self.data['product_num'] == product_num][['product_num', 'product_name', 'price']].to_json(orient='records')

@@ -29,7 +29,7 @@ export const TextContainer = styled.div`
   height: 80px;
 `;
 
-const ItemBoxText = styled.div<{ isTitle: boolean }>`
+export const ItemBoxText = styled.div<{ isTitle: boolean }>`
   vertical-align: text-bottom;
   width: 100%;
   margin: 0;
@@ -53,7 +53,7 @@ export interface ItemContainerHomeProp {
   color: string;
   price: string;
   name: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick: MouseEventHandler<HTMLDivElement>;
 }
 
 const ItemContainerHome = ({
@@ -65,7 +65,7 @@ const ItemContainerHome = ({
 }: ItemContainerHomeProp) => {
   return (
     <>
-      <ItemBoxBorder color={color}>
+      <ItemBoxBorder color={color} onClick={onClick}>
         <TextContainer>
           <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
           <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
