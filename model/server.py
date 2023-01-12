@@ -15,20 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/data")
+@app.get("/home-data")
 async def home():
     return model.get_random_data(3)
 
-# from typing import Optional
-# from fastapi import FastAPI
-
-# app = FastAPI()
-
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
-
-
-# @app.get("/items/{item_id}")
-# def read_item(item_id: int, q: Optional[str] = None):
-#     return {"item_id": item_id, "q": q}
+@app.get("/product-data/{product_category}")
+async def product(product_category: str):
+    return model.get_random_data_by_category(product_category, 11)

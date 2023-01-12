@@ -6,6 +6,7 @@ node_modules/
 frontend/node_modules
 backend/node_modules
 data/data_sample
+public/img/*.jpg
 
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks

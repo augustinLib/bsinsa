@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
 import styled from "styled-components";
 
-// const NavSectionAnimation = styled.
 const NavigationContainer = styled.div<{ category: "top" | "bottom" }>``;
 const NavSection = styled.div<{ isOn: boolean }>`
   display: ${(props) => (props.isOn ? "block" : "none")};
@@ -19,21 +18,6 @@ const NavSection = styled.div<{ isOn: boolean }>`
     animation: appear 1s ease-in-out;
   }
 `;
-// const Button = styled(Button)`
-//   padding: 10px;
-//   width: auto;
-
-//   border-color: black;
-//   background-color: green;
-//   font-style: bold;
-//   font-size: 20px;
-
-//   text-align: center;
-
-//   &:hover {
-//     text-decoration: solid underline white 4px;
-//   }
-// `;
 
 const Navigation = () => {
   const [isOn, setIsOn] = useState(false);
@@ -100,7 +84,7 @@ const Navigation = () => {
                   text={item}
                   type="navigation"
                   onClick={() => {
-                    navigate(`/${item.toLowerCase()}`);
+                    navigate(`/category/${item.toLowerCase()}`);
                     setToggle(false);
                   }}
                 />
@@ -113,7 +97,7 @@ const Navigation = () => {
                   text={item}
                   type="navigation"
                   onClick={() => {
-                    navigate(`/${item.toLowerCase()}`);
+                    navigate(`/category/${item.toLowerCase()}`);
                     setToggle(false);
                   }}
                 />

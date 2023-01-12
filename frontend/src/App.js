@@ -4,15 +4,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import TryOn from "./pages/TryOn";
 import Profile from "./pages/Profile";
+import ItemList from "./pages/ItemList";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/tryon" element={<TryOn />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/category/:id" element={<ItemList />} />
         </Routes>
       </div>
     </BrowserRouter>

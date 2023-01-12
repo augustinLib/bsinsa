@@ -1,5 +1,7 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import styled from "styled-components";
+import { GridImg } from "./FourGrid";
+import { ItemProps } from "./FourGrid";
 
 const ItemBoxBorder = styled.div`
   display: flex;
@@ -8,7 +10,7 @@ const ItemBoxBorder = styled.div`
   gap: 20px;
 
   position: relative;
-  width: 25vw;
+  width: 27vw;
   min-width: 300px;
   height: 60vh;
   min-height: 400px;
@@ -18,11 +20,11 @@ const ItemBoxBorder = styled.div`
   border-radius: 30px;
 `;
 
-export const TextContainer = styled.div`
-  padding-top: 12%;
-  padding-left: 10%;
+const TextContainer = styled.div`
+  padding-top: 5%;
+  padding-left: 5%;
 
-  display: flex;
+  display: inline-block;
   flex-direction: column;
 
   width: 90%;
@@ -42,37 +44,26 @@ const ItemBoxText = styled.div<{ isTitle: boolean }>`
   color: #000000;
 `;
 
-const ImgContainer = styled.img`
-  position: relative;
-  max-width: 95%;
-  max-height: 60%;
+const OneGridImg = styled(GridImg)`
+  width: 80%;
+  max-height: 70%;
+  max-width: 80%;
+  padding-top: 0px;
 `;
 
-export interface ItemContainerHomeProp {
-  imgSrc: string;
-  color: string;
-  price: string;
-  name: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-}
-
-const ItemContainerHome = ({
-  imgSrc,
-  color,
-  price,
-  name,
-  onClick,
-}: ItemContainerHomeProp) => {
+// TODO : fix it using Array Structure
+const OneGrid = ({ product_num, product_name, price }: ItemProps) => {
+  const publicUrl = process.env.PUBLIC_URL;
   return (
     <>
-      <ItemBoxBorder color={color}>
+      <ItemBoxBorder color={"white"}>
         <TextContainer>
-          <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
-          <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
+          <ItemBoxText isTitle={true}>{product_name}</ItemBoxText>
+          <ItemBoxText isTitle={false}>{price}</ItemBoxText>
         </TextContainer>
-        <ImgContainer alt="item" src={imgSrc}></ImgContainer>
+        <OneGridImg alt="item" src={`${publicUrl}/img/${product_num}.jpg`} />
       </ItemBoxBorder>
     </>
   );
 };
-export default ItemContainerHome;
+export default OneGrid;

@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from "react";
 import styled from "styled-components";
 
-export interface ItemContainerHomeProp {
+export interface ItemContainerCategoryProp {
   imgSrc: string;
   color: string;
   price: string;
@@ -27,8 +27,8 @@ const ItemBoxBorder = styled.div`
 `;
 
 const TextContainer = styled.div`
-  padding-top: 15%;
-  padding-left: 10%;
+  padding-top: 10%;
+  padding-left: 5%;
 
   display: flex;
   flex-direction: column;
@@ -50,13 +50,13 @@ const ItemBoxText = styled.div<{ isTitle: boolean }>`
   color: #000000;
 `;
 
-const ItemContainerHome = ({
+const ItemContainerCategory = ({
   imgSrc,
   color,
   price,
   name,
   onClick,
-}: ItemContainerHomeProp) => {
+}: ItemContainerCategoryProp) => {
   return (
     <>
       <ItemBoxBorder color={color}>
@@ -69,4 +69,4 @@ const ItemContainerHome = ({
     </>
   );
 };
-export default ItemContainerHome;
+export default ItemContainerCategory;

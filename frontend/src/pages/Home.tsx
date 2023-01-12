@@ -7,7 +7,7 @@ import PageDesc from "../components/PageDesc";
 import Navigation from "../components/Navigation/Navigation";
 import axios from "axios";
 
-const HomeContainer = styled.div`
+export const HomeContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -19,22 +19,29 @@ const HomeContainer = styled.div`
   min-width: 1000px;
 `;
 
-const NavContainer = styled.div`
+export const NavContainer = styled.div`
   height: 15vh;
   background: #ebebeb;
   min-width: 1000px;
 `;
 
+export interface ItemProp {
+  product_num: number;
+  category: string;
+  price: string;
+}
+
 const Home = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ItemProp[]>([]);
 
   const searchApi = () => {
-    axios.get("http://0.0.0.0:8000/data").then((response) => {
+    axios.get("http://0.0.0.0:8000/home-data").then((response) => {
+      const pattern = /{(.*?)}/g;
       setData(
         response.data
           .slice(1, -1)
-          .split(",")
-          .map((item: string) => parseInt(item))
+          .match(pattern)
+          .map((item: string) => JSON.parse(item))
       );
     });
   };
@@ -46,35 +53,17 @@ const Home = () => {
   return (
     <div className="home">
       <Header />
-      <PageDesc />
+      <PageDesc category={"BSINSA"} />
       <HomeContainer>
-        {data.map((index, item) => (
+        {data.map((item) => (
           <ItemContainerHome
-            key={index}
-            imgSrc={`img/${index}.jpg`}
+            key={item.product_num}
+            imgSrc={`img/${item.product_num}.jpg`}
             color={"white"}
-            price={"$9.99"}
-            name={"신발 "}
+            price={item.price}
+            name={item.category}
           />
         ))}
-        {/* <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        />
-        <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        />
-        <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        /> */}
       </HomeContainer>
       <NavContainer>
         <Navigation />
