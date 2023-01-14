@@ -1,17 +1,30 @@
-.App {
-  text-align: center;
+html {
+  height: 100%;
 }
 
-/* components/Buttons/HeaderButton  */
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  height: 100%;
+}
+
 .home {
+  display: flex;
   flex-direction: column;
+
   min-width: 1000px;
 }
 
 .Header {
   display: flex;
-  flex-direction: row-reverse;
-
   padding-left: 2%;
   padding-right: 2%;
 
@@ -21,40 +34,6 @@
   justify-content: space-between;
   background: #000000;
 }
-/* 
-.Button_header {
-  margin-left: 10px;
-  margin-right: 10px;
-  padding: 0px;
-  position: relative;
-  width: fit-content;
-  height: 100%;
-
-  background: #000000;
-  color: #ffffff;
-  border-color: black;
-  border-radius: 5px;
-} */
-
-/* .Button_header:hover > .button-text {
-  text-decoration: solid underline white 4px;
-} */
-
-/* .Button_header .button-text {
-  font-weight: 700;
-  font-style: bold;
-  font-size: 20px;
-  font-family: "Work Sans";
-
-  vertical-align: middle;
-  text-align: center;
-  text-transform: capitalize;
-
-  color: #ffffff;
-  padding: 0px;
-  border: 0px;
-  margin: 0px;
-} */
 
 .logo {
   /* Logo Component */

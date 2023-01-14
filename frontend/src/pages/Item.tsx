@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Header from "../components/HomeComponents/Header";
 import Navigation from "../components/Navigation/Navigation";
 import { HomeContainer, NavContainer } from "./Home";
+import { PageDescTextContainer } from "../components/HomeComponents/PageDesc";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   TextContainer,
@@ -147,6 +148,7 @@ const Item = () => {
   return (
     <div className="home">
       <Header />
+      <PageDescTextContainer />
       <HomeContainer>
         <ItemImageContainer>
           <ItemImg src={`/img/${id}.jpg`} />

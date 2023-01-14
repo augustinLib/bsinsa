@@ -2,6 +2,8 @@ import React, { MouseEventHandler } from "react";
 import styled from "styled-components";
 
 const ItemBoxBorder = styled.div`
+  float: left;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,15 +66,13 @@ const ItemContainerHome = ({
   onClick,
 }: ItemContainerHomeProp) => {
   return (
-    <>
-      <ItemBoxBorder color={color} onClick={onClick}>
-        <TextContainer>
-          <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
-          <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
-        </TextContainer>
-        <ImgContainer alt="item" src={imgSrc}></ImgContainer>
-      </ItemBoxBorder>
-    </>
+    <ItemBoxBorder color={color} onClick={onClick}>
+      <TextContainer>
+        <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
+        <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
+      </TextContainer>
+      <ImgContainer alt="item" src={imgSrc}></ImgContainer>
+    </ItemBoxBorder>
   );
 };
 export default ItemContainerHome;

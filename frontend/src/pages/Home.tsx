@@ -10,12 +10,14 @@ import { useNavigate } from "react-router-dom";
 
 export const HomeContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 5%;
+  // flex-direction: row;
+  flex: 1;
 
-  padding-top: 8%;
-  height: 65vh;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+
   background: #ebebeb;
   min-width: 1000px;
 `;
