@@ -13,6 +13,8 @@ export const HomeContainer = styled.div`
   flex: 1;
 
   justify-content: space-around;
+  padding-left: 5%;
+  padding-right: 5%;
 
   background: #ebebeb;
   min-width: 1000px;
