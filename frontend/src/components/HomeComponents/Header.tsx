@@ -7,6 +7,9 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     <div className="Header">
+      <div className="header-logo-box">
+        <LogoButton />
+      </div>
       <div className="header-button-box">
         <Button
           text="TRYON"
@@ -24,9 +27,6 @@ const Header = () => {
             navigate("/profile");
           }}
         />
-      </div>
-      <div className="header-logo-box">
-        <LogoButton />
       </div>
     </div>
   );
