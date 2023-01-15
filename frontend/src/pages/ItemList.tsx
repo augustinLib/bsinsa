@@ -15,7 +15,7 @@ import NineGridContainer from "../components/Category/NineGrid";
 import styled from "styled-components";
 
 const CategoryContainer = styled(HomeContainer)`
-  gap: 3%;
+  gap: 0;
 `;
 
 const ItemList = () => {

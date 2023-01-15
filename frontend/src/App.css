@@ -14,13 +14,14 @@ body {
   text-align: center;
   display: flex;
   height: 100%;
+  flex-direction: column;
+  min-width: 1200px;
 }
 
 .home {
+  height: 100%;
   display: flex;
   flex-direction: column;
-
-  min-width: 1000px;
 }
 
 .Header {

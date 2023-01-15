@@ -9,7 +9,7 @@ const ItemBoxBorder = styled.div`
   align-items: center;
   gap: 20px;
 
-  position: relative;
+  position: static;
   width: 25vw;
   min-width: 300px;
   height: 60vh;
@@ -26,6 +26,7 @@ export const TextContainer = styled.div`
 
   display: flex;
   flex-direction: column;
+  text-align: left;
 
   width: 90%;
   height: 80px;
@@ -34,9 +35,12 @@ export const TextContainer = styled.div`
 export const ItemBoxText = styled.div<{ isTitle: boolean }>`
   vertical-align: text-bottom;
   width: 100%;
+  height: 40px;
+
+  white-space: nowrap;
+  overflow: hidden;
   margin: 0;
 
-  text-align: left;
   font-family: "Work Sans";
   font-weight: ${(props) => (props.isTitle ? 700 : 500)};
   font-size: ${(props) => (props.isTitle ? "xx-large" : "x-large")};

@@ -2,27 +2,25 @@ import React from "react";
 import styled from "styled-components";
 
 export const PageDescTextContainer = styled.div`
-  // position: absolute;
-  flex-grow: 0;
-  width: 95vw;
-  height: 60px;
-  padding: 30px 0vw 0vh 5vw;
-  margin: 0;
-  background: #ebebeb;
-  text-align: left;
+  width: 100wh;
   min-width: 950px;
+  height: 12vh;
+
+  background: #ebebeb;
 `;
 
-const PageDescText = styled.span<{ position: "first" | "second" }>`
-  position: relative;
-  height: 32px;
+const PageDescText = styled.div<{ position: "first" | "second" }>`
+  display: flex;
+  height: 100%;
+  align-items: center;
+  float: left;
 
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 600;
   font-size: 40px;
-  margin-right: 20px;
 
+  padding-left: ${(props) => (props.position === "first" ? "5%" : "2%")};
   color: ${(props) =>
     props.position === "first" ? "#000000" : "rgba(0, 0, 0, 0.49)"};
 `;
