@@ -1,46 +1,77 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import Header from "../components/Header";
-import ItemContainerHome from "../components/ItemContainerHome";
-import PageDesc from "../components/PageDesc";
+import Header from "../components/HomeComponents/Header";
+import ItemContainerHome from "../components/HomeComponents/ItemContainerHome";
+import PageDesc from "../components/HomeComponents/PageDesc";
+import Navigation from "../components/Navigation/Navigation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const HomeContainer = styled.div`
+export const HomeContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 5%;
 
-  padding-top: 12%;
-  height: 75vh;
+  padding-top: 8%;
+  height: 65vh;
   background: #ebebeb;
+  min-width: 1000px;
 `;
 
+export const NavContainer = styled.div`
+  height: 15vh;
+  background: #ebebeb;
+  min-width: 1000px;
+`;
+
+export interface ItemProp {
+  product_num: number;
+  category: string;
+  price: string;
+  onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
+
 const Home = () => {
+  const [data, setData] = useState<ItemProp[]>([]);
+  const navigate = useNavigate();
+
+  const searchApi = () => {
+    axios.get("http://0.0.0.0:8000/home-data").then((response) => {
+      const pattern = /{(.*?)}/g;
+      setData(
+        response.data
+          .slice(1, -1)
+          .match(pattern)
+          .map((item: string) => JSON.parse(item))
+      );
+    });
+  };
+
+  useEffect(() => {
+    searchApi();
+  }, []);
+
   return (
     <div className="home">
       <Header />
-      <PageDesc />
+      <PageDesc category={"BSINSA"} />
       <HomeContainer>
-        <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        />
-        <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        />
-        <ItemContainerHome
-          imgSrc={"img/shoes.png"}
-          color={"white"}
-          price={"$9.99"}
-          name={"신발 "}
-        />
+        {data.map((item) => (
+          <ItemContainerHome
+            key={item.product_num}
+            imgSrc={`img/${item.product_num}.jpg`}
+            color={"white"}
+            price={item.price}
+            name={item.category}
+            onClick={(): void => navigate(`/item/${item.product_num}`)}
+          />
+        ))}
       </HomeContainer>
+      <NavContainer>
+        <Navigation />
+      </NavContainer>
     </div>
   );
 };

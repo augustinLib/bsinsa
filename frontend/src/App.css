@@ -1,9 +1,11 @@
 .App {
   text-align: center;
 }
+
 /* components/Buttons/HeaderButton  */
 .home {
   flex-direction: column;
+  min-width: 1000px;
 }
 
 .Header {
@@ -19,7 +21,7 @@
   justify-content: space-between;
   background: #000000;
 }
-
+/* 
 .Button_header {
   margin-left: 10px;
   margin-right: 10px;
@@ -32,14 +34,13 @@
   color: #ffffff;
   border-color: black;
   border-radius: 5px;
-}
+} */
 
-.Button_header:hover > .button-text {
-  /* border: 2px; */
+/* .Button_header:hover > .button-text {
   text-decoration: solid underline white 4px;
-}
+} */
 
-.Button_header .button-text {
+/* .Button_header .button-text {
   font-weight: 700;
   font-style: bold;
   font-size: 20px;
@@ -53,7 +54,7 @@
   padding: 0px;
   border: 0px;
   margin: 0px;
-}
+} */
 
 .logo {
   /* Logo Component */
