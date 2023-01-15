@@ -344,7 +344,7 @@ cython_debug/
 .ionide
 
 *.csv
-
+test.ipynb
 *.jpg
 *.gz
 *.bin
