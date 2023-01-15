@@ -1,16 +1,20 @@
 import React from "react";
-import styled from "styled-components";
-import { GridImg } from "./FourGrid";
-import { ItemProps } from "./FourGrid";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const ItemBoxBorder = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+import {
+  ItemProps,
+  ArrayProps,
+  GridImg,
+  GridImgContainer,
+} from "./ItemContainerCategory";
 
-  position: relative;
+const OneItemBoxBorder = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 4.5fr);
+  overflow: hidden;
+
   width: 27vw;
   min-width: 300px;
   height: 60vh;
@@ -21,21 +25,25 @@ const ItemBoxBorder = styled.div`
   border-radius: 30px;
 `;
 
-const TextContainer = styled.div`
-  padding-top: 5%;
-  padding-left: 5%;
+const OneItemTextContainer = styled.div`
+  padding-left: 10%;
 
-  display: inline-block;
+  display: flex;
+  justify-content: flex-end;
   flex-direction: column;
 
-  width: 90%;
-  height: 80px;
+  width: 80%;
+  height: 100%;
 `;
 
-const ItemBoxText = styled.div<{ isTitle: boolean }>`
+const OneItemBoxText = styled.div<{ isTitle: boolean }>`
   vertical-align: text-bottom;
   width: 100%;
   margin: 0;
+
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: ellipsis;
 
   text-align: left;
   font-family: "Work Sans";
@@ -53,20 +61,34 @@ const OneGridImg = styled(GridImg)`
 `;
 
 // TODO : fix it using Array Structure
-const OneGrid = ({ product_num, product_name, price }: ItemProps) => {
+const ItemOfOne = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
   const navigate = useNavigate();
   return (
-    <>
-      <ItemBoxBorder
-        color={"white"}
-        onClick={(): void => navigate(`/item/${product_num}`)}>
-        <TextContainer>
-          <ItemBoxText isTitle={true}>{product_name}</ItemBoxText>
-          <ItemBoxText isTitle={false}>{price}</ItemBoxText>
-        </TextContainer>
+    <OneItemBoxBorder
+      color={"white"}
+      onClick={(): void => navigate(`/item/${product_num}`)}>
+      <OneItemTextContainer>
+        <OneItemBoxText isTitle={true}>{product_name}</OneItemBoxText>
+        <OneItemBoxText isTitle={false}>{price}</OneItemBoxText>
+      </OneItemTextContainer>
+      <GridImgContainer>
         <OneGridImg alt="item" src={`${publicUrl}/img/${product_num}.jpg`} />
-      </ItemBoxBorder>
+      </GridImgContainer>
+    </OneItemBoxBorder>
+  );
+};
+
+const OneGrid: React.FC<ArrayProps> = ({ propWhichIsArray }) => {
+  return (
+    <>
+      {propWhichIsArray.map((item) => (
+        <ItemOfOne
+          product_num={item.product_num}
+          product_name={item.product_name}
+          price={item.price}
+        />
+      ))}
     </>
   );
 };

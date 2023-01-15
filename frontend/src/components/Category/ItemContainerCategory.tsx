@@ -50,6 +50,29 @@ const ItemBoxText = styled.div<{ isTitle: boolean }>`
   color: #000000;
 `;
 
+export const GridImgContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const GridImg = styled.img`
+  width: 80%;
+  max-height: 80%;
+  object-fit: cover;
+`;
+
+export interface ItemProps {
+  product_num: number;
+  product_name: string;
+  price: string;
+}
+
+export interface ArrayProps {
+  propWhichIsArray: ItemProps[];
+}
+
 const ItemContainerCategory = ({
   imgSrc,
   color,

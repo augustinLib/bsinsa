@@ -2,9 +2,11 @@ import styled from "styled-components";
 import React from "react";
 import { TextContainer } from "../HomeComponents/ItemContainerHome";
 import { useNavigate } from "react-router-dom";
+import { GridImg, GridImgContainer } from "./ItemContainerCategory";
+import { ItemProps, ArrayProps } from "./ItemContainerCategory";
 
 export const FourGridBorder = styled.div`
-  width: 25vw;
+  width: 27vw;
   min-width: 300px;
   height: 60vh;
   min-height: 400px;
@@ -20,7 +22,7 @@ export const FourGridBorder = styled.div`
 export const FourGridComponent = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(0, 3fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 3.25fr);
   border-radius: 20px;
   overflow: hidden;
 
@@ -32,12 +34,13 @@ export const FourGridComponent = styled.div`
 `;
 
 export const FourGridTextContainer = styled(TextContainer)`
-  padding-top: 0;
-  padding-left: 0;
+  display: flex;
+  justify-content: flex-end;
   text-align: left;
-  justify-content: bottom;
 
-  width: 100%;
+  padding-top: 0;
+  padding-left: 10%;
+  width: 80%;
   height: 100%;
 `;
 
@@ -54,29 +57,6 @@ export const FourGridText = styled.div<{ isTitle: boolean }>`
   font-weight: ${(props) => (props.isTitle ? 700 : 500)};
   color: #000000;
 `;
-
-export const GridImgContainer = styled.div`
-  display: flex;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const GridImg = styled.img`
-  width: 80%;
-  max-height: 80%;
-  object-fit: cover;
-`;
-
-export interface ItemProps {
-  product_num: number;
-  product_name: string;
-  price: string;
-}
-
-export interface ArrayProps {
-  propWhichIsArray: ItemProps[];
-}
 
 const ItemOfFour = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;

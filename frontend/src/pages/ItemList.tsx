@@ -6,8 +6,9 @@ import Header from "../components/HomeComponents/Header";
 import PageDesc from "../components/HomeComponents/PageDesc";
 import Navigation from "../components/Navigation/Navigation";
 import { HomeContainer, NavContainer } from "./Home";
+
 import propMatcher, { propMatcherProps } from "../etc/propMatcher";
-import { ItemProps } from "../components/Category/FourGrid";
+import { ItemProps } from "../components/Category/ItemContainerCategory";
 
 import FourGridContainer from "../components/Category/FourGrid";
 import OneGrid from "../components/Category/OneGrid";
@@ -16,6 +17,8 @@ import styled from "styled-components";
 
 const CategoryContainer = styled(HomeContainer)`
   gap: 0;
+  padding-left: 5%;
+  padding-right: 5%;
 `;
 
 const ItemList = () => {
@@ -62,14 +65,7 @@ const ItemList = () => {
       <PageDesc category={propMatcher[id as keyof propMatcherProps]} />
       <CategoryContainer>
         <FourGridContainer propWhichIsArray={fourData} />
-        {oneData.map((item) => (
-          <OneGrid
-            key={item.product_num}
-            product_num={item.product_num}
-            product_name={item.product_name}
-            price={item.price}
-          />
-        ))}
+        <OneGrid propWhichIsArray={oneData} />
         <NineGridContainer propWhichIsArray={nineData} />
       </CategoryContainer>
       <NavContainer>
