@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const NavigationContainer = styled.div<{ category: "top" | "bottom" }>``;
 const NavSection = styled.div<{ isOn: boolean }>`
-  display: ${(props) => (props.isOn ? "block" : "none")};
+  
   position: relative;
   flex-direction: row;
   float: right;
@@ -14,15 +14,25 @@ const NavSection = styled.div<{ isOn: boolean }>`
   border-radius: 5px;
   margin-right: 10px;
 
-  .appear {
-    animation: appear 1s ease-in-out;
+  bottom: 0;
+  transition: transform 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  visibility: ${(props) => (props.isOn ? "0.5s ease-in-out" : "hidden")};
+  ${(props) =>
+    props.isOn &&
+    css`
+      transform: translateX(0%);
+    `}
+  ${(props) =>
+    !props.isOn &&
+    css`
+      transform: translateX(100%);
+    `}
   }
 `;
 
 const Navigation = () => {
   const [isOn, setIsOn] = useState(false);
   const [category, setCategory] = useState<"top" | "bottom">("top");
-  const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   const topArray = [
     "HOOD",
@@ -45,8 +55,27 @@ const Navigation = () => {
     "ETC",
   ];
 
+  useEffect(() => {
+    if (!isOn) {
+      setTimeout(() => {
+        setIsOn(false);
+      }, 500);
+    }
+  }, [isOn]);
+
   return (
     <NavigationContainer category={category}>
+      <NavSection isOn={true}>
+        {isOn ? (
+          <Button
+            text="HIDE"
+            type="navigation"
+            onClick={() => {
+              setIsOn(!isOn);
+            }}
+          />
+        ) : null}
+      </NavSection>
       <NavSection isOn={true}>
         <Button
           text="TOP"
@@ -54,7 +83,6 @@ const Navigation = () => {
           onClick={() => {
             !isOn && setIsOn(!isOn);
             setCategory("top");
-            setToggle(true);
           }}
         />
         <Button
@@ -63,15 +91,6 @@ const Navigation = () => {
           onClick={() => {
             !isOn && setIsOn(!isOn);
             setCategory("bottom");
-            setToggle(true);
-          }}
-        />
-        <Button
-          text={toggle ? "HIDE" : "SHOW"}
-          type="navigation"
-          onClick={() => {
-            setIsOn(!isOn);
-            setToggle(!toggle);
           }}
         />
       </NavSection>
@@ -84,8 +103,8 @@ const Navigation = () => {
                   text={item}
                   type="navigation"
                   onClick={() => {
+                    setIsOn(false);
                     navigate(`/category/${item.toLowerCase()}`);
-                    setToggle(false);
                   }}
                 />
               );
@@ -97,8 +116,8 @@ const Navigation = () => {
                   text={item}
                   type="navigation"
                   onClick={() => {
+                    setIsOn(false);
                     navigate(`/category/${item.toLowerCase()}`);
-                    setToggle(false);
                   }}
                 />
               );

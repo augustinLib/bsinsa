@@ -71,6 +71,7 @@ const Home = () => {
       </HomeContainer>
       <NavContainer>
         <Navigation />
+        {/* <Dialog /> */}
       </NavContainer>
     </div>
   );
