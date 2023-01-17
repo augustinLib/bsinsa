@@ -28,7 +28,7 @@ const ItemList = () => {
   const [nineData, setNineData] = useState<ItemProps[]>([]);
 
   const requestCategoryData = () => {
-    axios.get(`http://0.0.0.0:8000/product-data/${id}`).then((response) => {
+    axios.get(`http://172.30.1.25:8000/product-data/${id}`).then((response) => {
       const pattern = /{(.*?)}/g;
       setFourData(
         response.data

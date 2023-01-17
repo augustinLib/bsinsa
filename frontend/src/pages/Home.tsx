@@ -38,7 +38,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const searchApi = () => {
-    axios.get("http://0.0.0.0:8000/home-data").then((response) => {
+    axios.get("http://172.30.1.25:8000/home-data").then((response) => {
       const pattern = /{(.*?)}/g;
       setData(
         response.data
