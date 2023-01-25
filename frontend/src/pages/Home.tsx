@@ -37,8 +37,8 @@ const Home = () => {
   const [data, setData] = useState<ItemProp[]>([]);
   const navigate = useNavigate();
 
-  const searchApi = () => {
-    axios.get("http://172.30.1.25:8000/home-data").then((response) => {
+  const searchApi = (ip?: string) => {
+    axios.get("http://127.0.0.1:8000/home-data").then((response) => {
       const pattern = /{(.*?)}/g;
       setData(
         response.data
@@ -47,6 +47,16 @@ const Home = () => {
           .map((item: string) => JSON.parse(item))
       );
     });
+  };
+
+  const getIP = async () => {
+    try {
+      const response = await axios.get("https://api.ipify.org?format=json");
+      const ip = response.data.ip;
+      return ip;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

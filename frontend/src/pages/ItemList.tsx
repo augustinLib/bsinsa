@@ -27,8 +27,8 @@ const ItemList = () => {
   const [fourData, setFourData] = useState<ItemProps[]>([]);
   const [nineData, setNineData] = useState<ItemProps[]>([]);
 
-  const requestCategoryData = () => {
-    axios.get(`http://172.30.1.25:8000/product-data/${id}`).then((response) => {
+  const requestCategoryData = (ip?: string) => {
+    axios.get(`http://127.0.0.1:8000/product-data/${id}`).then((response) => {
       const pattern = /{(.*?)}/g;
       setFourData(
         response.data
@@ -56,7 +56,6 @@ const ItemList = () => {
 
   useEffect(() => {
     requestCategoryData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
