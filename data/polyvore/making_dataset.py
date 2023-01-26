@@ -4,13 +4,11 @@ import pandas as pd
 data = pd.read_csv('data/polyvore/processed_data/compatible_sets.csv')
 data.head()
 
-# group by set_id and make a new dataframe with the top and bottom items on the same row with separate column named with type
 new_data = data.groupby('set_id').agg({'item_index': lambda x: list(x), 'categoryid': lambda x: list(x), 'type': lambda x: list(x)})
 new_data['label'] = 1
 new_data.reset_index(inplace=True)
 new_data.head()
 
-# iterate through newdata and check the type, if the type is [top, bottom] pass, if the type is [bottom, top] then swap the item_index and categoryid
 aligned_data = pd.DataFrame(columns=['set_id', 'item_index', 'categoryid', 'type', 'label'])
 for i in range(len(new_data)):
     if new_data.iloc[i]['type'] == ['top', 'bottom']:
@@ -27,8 +25,6 @@ for i in range(len(new_data)):
         aligned_data.at[i, 'label'] = new_data.iloc[i]['label']
     else:
         pass
-
-
 
 # for each row in new_data, make a new data frame with the top and bottom items on the same row with separate column named with type
 aligned_data.head()
@@ -54,7 +50,7 @@ shuffled_index = list(range(len(sorted_data)))
 random.shuffle(shuffled_index)
 
 shuffled_data_top = pd.DataFrame(columns=['top_index', 'bottom_index', 'top_categoryid', 'bottom_categoryid', 'label'])
-for i in range(len(sorted_data)):
+for i in range(0, len(sorted_data), 2):
     j = shuffled_index[i]
     set_id = aligned_data.iloc[i]['set_id']
     top_index = sorted_data.iloc[i]['top_index']
@@ -74,7 +70,7 @@ shuffled_index = list(range(len(sorted_data)))
 random.shuffle(shuffled_index)
 
 shuffled_data_bottom = pd.DataFrame(columns=['top_index', 'bottom_index', 'top_categoryid', 'bottom_categoryid', 'label'])
-for i in range(len(sorted_data)):
+for i in range(0, len(sorted_data), 2):
     j = shuffled_index[i]
     set_id = aligned_data.iloc[i]['set_id']
     top_index = sorted_data.iloc[j]['top_index']
@@ -92,4 +88,4 @@ for i in range(len(sorted_data)):
 
 # combine the shuffled data
 combined_data = pd.concat([sorted_data, shuffled_data_top, shuffled_data_bottom], ignore_index=True)
-combined_data.to_csv('combined_data.csv', index=False)
+combined_data.to_csv('data/polyvore/processed_data/combined_data.csv', index=False)

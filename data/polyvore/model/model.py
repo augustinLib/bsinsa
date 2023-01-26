@@ -9,30 +9,30 @@ import torchvision.models as models
 class ResNet(nn.Module):
     def __init__(self, embedding=256):
         super(ResNet, self).__init__()
-        self.resnet = models.resnet18(pretrained=True)
-        self.resnet.fc = nn.Linear(self.resnet.fc.in_features, 8 * embedding)
+        self.embedding = embedding
+        self.resnet = models.resnet50()
+        self.resnet.fc = nn.Identity()
 
     def forward(self, x):
         return self.resnet(x)
 
 
-class SiamNet(nn.Module):
-    def __init__(self, embedding=256):
-        super(SiamNet, self).__init__()
-        self.resnet = ResNet(embedding)
-        self.fc1 = nn.Linear(16 * embedding, 4 * embedding)
-        self.fc2 = nn.Linear(4 * embedding, embedding)
-        self.fc3 = nn.Linear(embedding, 2)
+class CompatibilityModel(nn.Module):
+    def __init__(self, embedding=2048, hidden_dim=512):
+        super(CompatibilityModel, self).__init__()
+        self.resnet = ResNet(embedding)  # output=2048
+        self.lstm = nn.LSTM(embedding, hidden_dim, batch_first=True, bidirectional=True, dropout=0.7)
+        self.fc = nn.Linear(hidden_dim * 2 * 2, 1)
 
     def forward(self, top, bottom):
         top_out = self.resnet(top)
         bottom_out = self.resnet(bottom)
+        top_out = top_out.reshape(top_out.shape[0], 1, top_out.shape[1])
+        bottom_out = bottom_out.reshape(bottom_out.shape[0], 1, bottom_out.shape[1])
         x = torch.cat((top_out, bottom_out), dim=1)
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.fc2(x)
-        x = F.relu(x)
-        x = self.fc3(x)
+        lstm_out, _ = self.lstm(x)
+        lstm_out = lstm_out.reshape(lstm_out.shape[0], lstm_out.shape[1] * lstm_out.shape[2])
+        x = self.fc(lstm_out)
         x = torch.sigmoid(x)
         return x
         
