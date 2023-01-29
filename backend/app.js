@@ -1,31 +1,99 @@
 var express = require("express");
 var path = require("path");
-// var cookieParser = require('cookie-parser');
-// var logger = require('morgan');
-
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
 const cors = require("cors");
+const session = require("express-session");
+const mongoose = require("mongoose");
+
 var app = express();
 
-// app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://10.0.2.2:3000" }));
 app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(
+  session({
+    secret: "MySecret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.get("/api", (req, res) => {
+  const { Item } = require("./Model/Image");
+  Item.find()
+    .limit(10)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      console.log("Error: ", err);
+    });
+});
+const axios = require("axios");
+app.get("/api/data", (req, res) => {
+  axios
+    .get("http://0.0.0.0:8000/home-data")
+    .then((response) => res.json(response.data))
+    .catch((error) => res.json({ error: error.message }));
+});
+
+const bodyParser = require("body-parser");
+const { User } = require("./Model/User");
+app.use(bodyParser.json());
+
+app.post("/api/register", (req, res) => {
+  const temp = { userId: req.body.id, password: req.body.password, likes: [] };
+  const NewUser = new User(temp);
+  NewUser.save((err, savedForm) => {
+    if (err) {
+      if (err.code === 11000) {
+        res.status(501).send(err);
+        console.log(err.name);
+        console.log(err.code);
+      } else {
+        res.status(500).send(err);
+      }
+    } else {
+      res.status(200).send(savedForm);
+    }
+  });
+});
+
+app.post("/api/login", (req, res) => {
+  const { id, password } = req.body;
+  User.findOne({ userId: id }, (err, user) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (user) {
+        if (user.password === password) {
+          req.session.user = user.userId;
+          res.status(200).send("Success!");
+        } else {
+          res.status(502).send("Wrong password");
+        }
+      } else {
+        res.status(503).send("User not found");
+      }
+    }
+  });
+});
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("Server started on port 3000");
   console.log(path.join(__dirname, "../frontend/build/index.html"));
 });
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
-// module.exports = app;
+mongoose
+  .connect("mongodb://localhost:27017/conference", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connected to MongoDB!!!");
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB", err);
+  });

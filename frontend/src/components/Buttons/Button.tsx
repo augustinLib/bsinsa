@@ -17,7 +17,6 @@ export const HeaderButton = styled.button<{ typeOf: "header" | "navigation" }>`
 
   background: ${(props) => (props.typeOf === "header" ? "000000" : "#1c1f33")};
   color: #ffffff;
-  // border-color: ${(props) => (props.typeOf === "header" ? "black" : "none")};
   border: ${(props) => (props.typeOf === "header" ? "black" : "none")};
   border-radius: 5px;
 
@@ -31,8 +30,8 @@ export const HeaderButton = styled.button<{ typeOf: "header" | "navigation" }>`
   text-transform: capitalize;
 
   &:hover {
+    color: #ee0260;
     font-weight: 900;
-    font-style: italic;
   }
 `;
 

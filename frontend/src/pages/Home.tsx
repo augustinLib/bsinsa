@@ -38,25 +38,30 @@ const Home = () => {
   const navigate = useNavigate();
 
   const searchApi = (ip?: string) => {
-    axios.get("http://127.0.0.1:8000/home-data").then((response) => {
-      const pattern = /{(.*?)}/g;
-      setData(
-        response.data
-          .slice(1, -1)
-          .match(pattern)
-          .map((item: string) => JSON.parse(item))
-      );
-    });
-  };
+    axios
+      .get("api/data")
+      .then((response) => {
+        const pattern = /{(.*?)}/g;
+        setData(
+          response.data
+            .slice(1, -1)
+            .match(pattern)
+            .map((item: string) => JSON.parse(item))
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  const getIP = async () => {
-    try {
-      const response = await axios.get("https://api.ipify.org?format=json");
-      const ip = response.data.ip;
-      return ip;
-    } catch (error) {
-      console.error(error);
-    }
+    // axios.get("http://127.0.0.1:8000/home-data").then((response) => {
+    //   const pattern = /{(.*?)}/g;
+    //   setData(
+    //     response.data
+    //       .slice(1, -1)
+    //       .match(pattern)
+    //       .map((item: string) => JSON.parse(item))
+    //   );
+    // });
   };
 
   useEffect(() => {
