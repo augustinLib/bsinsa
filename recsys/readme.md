@@ -5,21 +5,6 @@
 
 ## STRUCTURE
 
-├── README.md <br/>
-├── final_model<br/>
-├── categories  <br/>
-│     ├───Preprocess_categories.py<br/>
-│     ├───Mobilenet_categories.py<br/>
-│     ├───Train_categories.py<br/>
-│     └───Embedding_categories.py<br/>
-│   ├── show_and_tell<br/>
-│     ├───Proprecess.py<br/>
-│     ├───Modeling.py<br/>
-│     ├───Training.py<br/>
-│     └───Embedding.py<br/>
-├── similarity <br/>
-│     └─── similarity.py<br/>
-
 Preprocess_categories.py : mobilenet 모델에 적용시키기 위한 데이터 전처리 및 dataloader를 만드는 코드입니다.<br/>
 
 Mobilenet_categories.py : mobilenet 모델이 정의된 코드입니다.<br/>
