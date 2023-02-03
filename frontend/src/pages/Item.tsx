@@ -3,24 +3,38 @@ import styled from "styled-components";
 
 import Header from "../components/HomeComponents/Header";
 import Navigation from "../components/Navigation/Navigation";
-import { HomeContainer, NavContainer } from "./Home";
+import { NavContainer } from "./Home";
 import { PageDescTextContainer } from "../components/HomeComponents/PageDesc";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  TextContainer,
-  ItemBoxText,
-} from "../components/HomeComponents/ItemContainerHome";
 import axios from "axios";
 
-export const ItemContainer = styled(HomeContainer)`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  padding-top: 8%;
-  height: 65vh;
+const HomeContainer = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  grid-template-rows: 1fr;
   background: #ebebeb;
   min-width: 1000px;
+  gap: 5%;
+
+  height: 67vh;
+
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 2%;
+
+  background: #ebebeb;
+  min-width: 1000px;
+`;
+
+export const ItemContainer = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  grid-template-rows: 1fr;
+  background: #ebebeb;
+  min-width: 1000px;
+  // justify-content: center;
+
+  height: 65vh;
 `;
 
 const ItemImageContainer = styled.div`
@@ -30,8 +44,8 @@ const ItemImageContainer = styled.div`
   vertical-align: middle;
   overflow: hidden;
 
-  width: 35vw;
-  height: 60vh;
+  // width: 35vw;
+  // height: 60vh;
   min-width: 300px;
   min-height: 400px;
 
@@ -39,65 +53,85 @@ const ItemImageContainer = styled.div`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
 `;
+
 const ItemImg = styled.img`
   object-fit: scale-down;
 
   width: 90%;
   height: 90%;
 `;
-const RightContatiner = styled.div`
+
+const RightContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0px 20px;
-  height: 60vh;
+  width: 95%;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 2.5fr);
+  row-gap: 5%;
 `;
 
 const ItemDescContainer = styled.div`
   grid-column: 1/3;
   grid-row: 1/2;
-  display: box;
-  align-items: center;
-  justify-content: center;
 
-  width: 45vw;
-  min-width: 300px;
-  height: 45vh;
-  min-height: 300px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+      0,
+      1fr
+    );
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  padding-left: 8%;
+  padding-right: 5%;
+  padding-bottom: 2%;
 
   background: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
 `;
 
-const ItemTextContainer = styled(TextContainer)`
-  padding-top: 2%;
-  padding-left: 5%;
+const ItemTextContainer = styled.div`
+  grid-column: 1/5;
 
-  display: flex;
-
-  width: 90%;
-  height: 20%;
+  width: 95%;
+  vertical-align: bottom;
+  align-self: end;
 `;
 
-const ItemDescText = styled(ItemBoxText)`
+const ItemDescText = styled.div<{ isTitle: boolean }>`
+  vertical-align: ${(props) => (props.isTitle ? "top" : "sub")};
+
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+
+  text-align: left;
+  align-self: center;
+  font-family: "Work Sans";
+  font-weight: ${(props) => (props.isTitle ? 700 : 400)};
+  font-size: ${(props) => (props.isTitle ? "xx-large" : "xx-large")};
+
+  color: #000000;
   box-sizing: border-box;
 `;
 
-const ReviewContainer = styled.div`
-  display: flex;
-  width: 96%;
-  height: 70%;
-  margin: 2%;
-  background: #f8f8f8;
-
-  justify-content: center;
-`;
-
-const Button = styled.button<{ color: string }>`
-  ${(props) => (props.color ? `background: ${props.color}` : "#1c1f33")};
-  color: white;
+const Button = styled.button<{ loc: "left" | "center" | "right" }>`
+  background: ${(props) =>
+    props.loc === "left"
+      ? "#000000"
+      : props.loc === "center"
+      ? "#ebebeb"
+      : "#ff5c5c"};
+  color: ${(props) =>
+    props.loc === "left"
+      ? "white"
+      : props.loc === "center"
+      ? "black"
+      : "white"};
   border: none;
   border-radius: 5px;
+  width: 90%;
+  height: 70%;
+  align-self: center;
+  justify-self: left;
 
   font-weight: 700;
   font-style: bold;
@@ -110,7 +144,26 @@ const Button = styled.button<{ color: string }>`
   &:hover {
     font-weight: 900;
     font-style: italic;
+    cursor: pointer;
   }
+`;
+
+const DetailsContainer = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
+  padding: 0;
+  gap: 5%;
+`;
+
+const Detail = styled.div`
+  background: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  border: none;
+
+  width: 100%;
 `;
 
 export interface ItemProp {
@@ -128,8 +181,13 @@ const Item = () => {
     product_num: 0,
   });
 
+  const handleLike = () => {
+    console.log("like");
+  };
+
   const searchItem = () => {
-    axios.get(`http://0.0.0.0:8000/item/${id}`).then((response) => {
+    axios.get(`/api/item-data/${id}`).then((response) => {
+      // axios.get(`http://0.0.0.0:8001/item/${id}`).then((response) => {
       const pattern = /{(.*?)}/g;
       setData(
         response.data
@@ -153,29 +211,39 @@ const Item = () => {
         <ItemImageContainer>
           <ItemImg src={`/img/${id}.jpg`} />
         </ItemImageContainer>
-        <RightContatiner>
+        <RightContainer>
           <ItemDescContainer>
             <ItemTextContainer>
               <ItemDescText isTitle={true}>{data.product_name}</ItemDescText>
-              <ItemDescText isTitle={false}>{data.price}</ItemDescText>
             </ItemTextContainer>
-            <ReviewContainer>asdffdasdfasdfasdfdfassdfas</ReviewContainer>
+            <ItemDescText isTitle={false}>{data.price}</ItemDescText>
+            <Button
+              loc="left"
+              onClick={() => {
+                navigate("/");
+              }}>
+              구매하기
+            </Button>
+            <Button
+              loc="center"
+              onClick={() => {
+                navigate("/");
+              }}>
+              장바구니
+            </Button>
+            <Button loc="right" onClick={handleLike}>
+              좋아요
+            </Button>
           </ItemDescContainer>
-          <Button
-            color={"#1c1f33"}
-            onClick={() => {
-              navigate("/");
-            }}>
-            구매하기
-          </Button>
-          <Button
-            color={"#2E4D64"}
-            onClick={() => {
-              navigate("/");
-            }}>
-            장바구니
-          </Button>
-        </RightContatiner>
+          <DetailsContainer>
+            <Detail>
+              <h1>Tags</h1>
+            </Detail>
+            <Detail>
+              <h1>Opinions</h1>
+            </Detail>
+          </DetailsContainer>
+        </RightContainer>
       </HomeContainer>
       <NavContainer>
         <Navigation />

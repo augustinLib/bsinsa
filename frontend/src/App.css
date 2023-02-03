@@ -4,6 +4,7 @@ html {
 
 body {
   height: 100%;
+  overflow: hidden;
 }
 
 #root {
@@ -43,6 +44,10 @@ body {
   background: #000000;
   border-radius: 5px;
   border: none;
+}
+
+.logo:hover {
+  cursor: pointer;
 }
 
 .logo .logo-image {

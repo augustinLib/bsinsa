@@ -6,7 +6,7 @@ import {
   InfoInput,
   InfoRegister,
 } from "./Register";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -33,6 +33,8 @@ const Login = () => {
   const [password, setPassword] = React.useState("");
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initial = searchParams.get("init");
 
   const onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -48,9 +50,12 @@ const Login = () => {
       .post("/api/login", { id, password })
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("token", id);
           alert("로그인이 완료되었습니다.");
-          navigate("/");
+          if (initial) {
+            navigate("/initial");
+          } else {
+            navigate("/");
+          }
         }
       })
       .catch((err) => {
