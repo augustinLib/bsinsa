@@ -10,12 +10,12 @@ import { useNavigate } from "react-router-dom";
 
 export const HomeContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 5%;
+  flex: 1;
 
-  padding-top: 8%;
-  height: 65vh;
+  justify-content: space-around;
+  padding-left: 5%;
+  padding-right: 5%;
+
   background: #ebebeb;
   min-width: 1000px;
 `;
@@ -37,16 +37,31 @@ const Home = () => {
   const [data, setData] = useState<ItemProp[]>([]);
   const navigate = useNavigate();
 
-  const searchApi = () => {
-    axios.get("http://0.0.0.0:8000/home-data").then((response) => {
-      const pattern = /{(.*?)}/g;
-      setData(
-        response.data
-          .slice(1, -1)
-          .match(pattern)
-          .map((item: string) => JSON.parse(item))
-      );
-    });
+  const searchApi = (ip?: string) => {
+    axios
+      .get("api/data")
+      .then((response) => {
+        const pattern = /{(.*?)}/g;
+        setData(
+          response.data
+            .slice(1, -1)
+            .match(pattern)
+            .map((item: string) => JSON.parse(item))
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // axios.get("http://127.0.0.1:8000/home-data").then((response) => {
+    //   const pattern = /{(.*?)}/g;
+    //   setData(
+    //     response.data
+    //       .slice(1, -1)
+    //       .match(pattern)
+    //       .map((item: string) => JSON.parse(item))
+    //   );
+    // });
   };
 
   useEffect(() => {
@@ -71,6 +86,7 @@ const Home = () => {
       </HomeContainer>
       <NavContainer>
         <Navigation />
+        {/* <Dialog /> */}
       </NavContainer>
     </div>
   );

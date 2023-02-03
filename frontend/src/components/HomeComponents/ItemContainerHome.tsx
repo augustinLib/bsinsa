@@ -2,12 +2,14 @@ import React, { MouseEventHandler } from "react";
 import styled from "styled-components";
 
 const ItemBoxBorder = styled.div`
+  float: left;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 
-  position: relative;
+  position: static;
   width: 25vw;
   min-width: 300px;
   height: 60vh;
@@ -24,6 +26,7 @@ export const TextContainer = styled.div`
 
   display: flex;
   flex-direction: column;
+  text-align: left;
 
   width: 90%;
   height: 80px;
@@ -32,9 +35,12 @@ export const TextContainer = styled.div`
 export const ItemBoxText = styled.div<{ isTitle: boolean }>`
   vertical-align: text-bottom;
   width: 100%;
+  height: 40px;
+
+  white-space: nowrap;
+  overflow: hidden;
   margin: 0;
 
-  text-align: left;
   font-family: "Work Sans";
   font-weight: ${(props) => (props.isTitle ? 700 : 500)};
   font-size: ${(props) => (props.isTitle ? "xx-large" : "x-large")};
@@ -64,15 +70,13 @@ const ItemContainerHome = ({
   onClick,
 }: ItemContainerHomeProp) => {
   return (
-    <>
-      <ItemBoxBorder color={color} onClick={onClick}>
-        <TextContainer>
-          <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
-          <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
-        </TextContainer>
-        <ImgContainer alt="item" src={imgSrc}></ImgContainer>
-      </ItemBoxBorder>
-    </>
+    <ItemBoxBorder color={color} onClick={onClick}>
+      <TextContainer>
+        <ItemBoxText isTitle={true}>당신을 위한 {name}</ItemBoxText>
+        <ItemBoxText isTitle={false}>{price}부터</ItemBoxText>
+      </TextContainer>
+      <ImgContainer alt="item" src={imgSrc}></ImgContainer>
+    </ItemBoxBorder>
   );
 };
 export default ItemContainerHome;

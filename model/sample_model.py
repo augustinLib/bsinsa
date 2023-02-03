@@ -23,6 +23,7 @@ class Model:
       }
 
   def get_data(self, product_num):
+
     return self.data[self.data['product_num'] == product_num]
 
   def get_random_data(self, num):

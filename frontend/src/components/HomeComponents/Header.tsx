@@ -5,18 +5,15 @@ import LogoButton from "../Buttons/Logo";
 
 const Header = () => {
   const navigate = useNavigate();
+
   return (
     <div className="Header">
+      <div className="header-logo-box">
+        <LogoButton />
+      </div>
       <div className="header-button-box">
-        <Button
-          text="TRYON"
-          type="header"
-          onClick={() => {
-            navigate("/tryon");
-          }}
-        />
         <Button text="RECOMMENDATION" type="header" onClick={() => {}} />
-        <Button text="BUSINESS" type="header" onClick={() => {}} />
+        <Button text="EXPLORE" type="header" onClick={() => {}} />
         <Button
           text="PROFILE"
           type="header"
@@ -24,9 +21,7 @@ const Header = () => {
             navigate("/profile");
           }}
         />
-      </div>
-      <div className="header-logo-box">
-        <LogoButton />
+        <Button text=" LOGOUT" type="header" onClick={() => {}} />
       </div>
     </div>
   );

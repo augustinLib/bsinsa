@@ -3,14 +3,16 @@ import React from "react";
 
 import { TextContainer } from "../HomeComponents/ItemContainerHome";
 import { FourGridBorder, FourGridComponent, FourGridText } from "./FourGrid";
-import { ItemProps, ArrayProps } from "./FourGrid";
+import {
+  GridImgContainer,
+  ItemProps,
+  ArrayProps,
+} from "./ItemContainerCategory";
 import { useNavigate } from "react-router-dom";
 
 const NineGridBorder = styled(FourGridBorder)`
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
 `;
 
 const NineGridComponentBig = styled(FourGridComponent)`
@@ -18,36 +20,53 @@ const NineGridComponentBig = styled(FourGridComponent)`
   grid-row: 1 / 2;
   grid-column: span 2;
   grid-row: span 2;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 3.3fr);
 `;
 
 const NineGridComponentSmall = styled(FourGridComponent)`
   border-radius: 12px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 4fr);
 `;
 
 const NineGridTextContainer = styled(TextContainer)<{ isBig: boolean }>`
+  padding-top: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+
+  height: 100%;
   ${(props) =>
     props.isBig
       ? css`
-          padding-top: 7%;
+          width: 80%;
+          text-align: left;
           padding-left: 5%;
         `
       : css`
-          padding-left: 0%;
           width: 100%;
+          text-align: center;
+          padding-left: 0%;
         `}
-  height: 10%;
+  height: 100%;
 `;
 
 const NineGridText = styled(FourGridText)<{ isBig: boolean; isTitle: boolean }>`
   ${(props) =>
     props.isBig
       ? css`
-          font-size: ${props.isTitle ? "large" : "middle"};
+          font-size: ${props.isTitle ? "x-large" : "large"};
           font-weight: ${props.isTitle ? 700 : 500};
           text-align: left;
         `
       : css`
-          font-size: "large";
+          font-size: "xx-large";
           font-weight: 800;
           text-align: center;
           margin-top: auto;
@@ -79,7 +98,9 @@ const ItemOfNineBig = ({ product_num, product_name, price }: ItemProps) => {
           {price}
         </NineGridText>
       </NineGridTextContainer>
-      <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      <GridImgContainer>
+        <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      </GridImgContainer>
     </NineGridComponentBig>
   );
 };
@@ -95,7 +116,9 @@ const ItemOfNineSmall = ({ product_num, product_name, price }: ItemProps) => {
           {price}
         </NineGridText>
       </NineGridTextContainer>
-      <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      <GridImgContainer>
+        <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      </GridImgContainer>
     </NineGridComponentSmall>
   );
 };

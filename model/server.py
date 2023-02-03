@@ -5,12 +5,13 @@ from sample_model import Model
 app = FastAPI()
 model = Model()
 
-origins = ["http://localhost:3000", "http://127.0.0.1:3000", "http://172.30.1.61:3000"]
+# origins = ["http://localhost:3000", "http://127.0.0.1:3000", "http://172.30.1.25:3000"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -26,3 +27,17 @@ async def product(product_category: str):
 @app.get("/item/{product_num}")
 async def item(product_num: int):
     return model.get_item(product_num)
+
+@app.get("/test-data")
+async def test():
+    return model.test_mongo()
+
+import json
+from pymongo import MongoClient
+client = MongoClient('mongodb://localhost:27017',5555)
+db = client['conference']
+from bson.json_util import dumps
+@app.get('/mongo')
+async def get_users_in_mongo():
+    items = db['item']
+    return json.loads(dumps(items.find().limit(20)))

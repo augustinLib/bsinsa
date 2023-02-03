@@ -6,8 +6,9 @@ import Header from "../components/HomeComponents/Header";
 import PageDesc from "../components/HomeComponents/PageDesc";
 import Navigation from "../components/Navigation/Navigation";
 import { HomeContainer, NavContainer } from "./Home";
+
 import propMatcher, { propMatcherProps } from "../etc/propMatcher";
-import { ItemProps } from "../components/Category/FourGrid";
+import { ItemProps } from "../components/Category/ItemContainerCategory";
 
 import FourGridContainer from "../components/Category/FourGrid";
 import OneGrid from "../components/Category/OneGrid";
@@ -15,7 +16,9 @@ import NineGridContainer from "../components/Category/NineGrid";
 import styled from "styled-components";
 
 const CategoryContainer = styled(HomeContainer)`
-  gap: 3%;
+  gap: 0;
+  padding-left: 5%;
+  padding-right: 5%;
 `;
 
 const ItemList = () => {
@@ -24,8 +27,8 @@ const ItemList = () => {
   const [fourData, setFourData] = useState<ItemProps[]>([]);
   const [nineData, setNineData] = useState<ItemProps[]>([]);
 
-  const requestCategoryData = () => {
-    axios.get(`http://0.0.0.0:8000/product-data/${id}`).then((response) => {
+  const requestCategoryData = (ip?: string) => {
+    axios.get(`http://127.0.0.1:8000/product-data/${id}`).then((response) => {
       const pattern = /{(.*?)}/g;
       setFourData(
         response.data
@@ -53,7 +56,6 @@ const ItemList = () => {
 
   useEffect(() => {
     requestCategoryData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -62,14 +64,7 @@ const ItemList = () => {
       <PageDesc category={propMatcher[id as keyof propMatcherProps]} />
       <CategoryContainer>
         <FourGridContainer propWhichIsArray={fourData} />
-        {oneData.map((item) => (
-          <OneGrid
-            key={item.product_num}
-            product_num={item.product_num}
-            product_name={item.product_name}
-            price={item.price}
-          />
-        ))}
+        <OneGrid propWhichIsArray={oneData} />
         <NineGridContainer propWhichIsArray={nineData} />
       </CategoryContainer>
       <NavContainer>

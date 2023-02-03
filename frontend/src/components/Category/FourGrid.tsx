@@ -2,73 +2,61 @@ import styled from "styled-components";
 import React from "react";
 import { TextContainer } from "../HomeComponents/ItemContainerHome";
 import { useNavigate } from "react-router-dom";
+import { GridImg, GridImgContainer } from "./ItemContainerCategory";
+import { ItemProps, ArrayProps } from "./ItemContainerCategory";
 
 export const FourGridBorder = styled.div`
-  width: 25vw;
+  width: 27vw;
   min-width: 300px;
   height: 60vh;
   min-height: 400px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
 
+  gap: 20px;
   background-color: #ebebeb;
-  padding: 1px;
 `;
 
 export const FourGridComponent = styled.div`
-  padding: 0px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) minmax(0, 3.25fr);
   border-radius: 20px;
+  overflow: hidden;
 
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: #ffffff;
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const FourGridTextContainer = styled(TextContainer)`
-  padding-top: 5%;
-  padding-left: 5%;
-
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
+  text-align: left;
 
-  width: 90%;
-  height: 15%;
+  padding-top: 0;
+  padding-left: 10%;
+  width: 80%;
+  height: 100%;
 `;
 
 export const FourGridText = styled.div<{ isTitle: boolean }>`
-  vertical-align: text-bottom;
   width: 100%;
-  margin: 0;
+  height: fit-content;
 
-  display: inline;
-  text-align: left;
+  white-space: nowrap;
+  overflow-x: auto;
+  text-overflow: ellipsis;
+
   font-family: "Work Sans";
-  font-size: ${(props) => (props.isTitle ? "small" : "small")};
+  font-size: ${(props) => (props.isTitle ? "x-large" : "large")};
   font-weight: ${(props) => (props.isTitle ? 700 : 500)};
   color: #000000;
 `;
-
-export const GridImg = styled.img`
-  position: relative;
-  padding-top: 5%;
-  max-width: 80%;
-  max-height: 80%;
-`;
-
-export interface ItemProps {
-  product_num: number;
-  product_name: string;
-  price: string;
-}
-
-export interface ArrayProps {
-  propWhichIsArray: ItemProps[];
-}
 
 const ItemOfFour = ({ product_num, product_name, price }: ItemProps) => {
   const publicUrl = process.env.PUBLIC_URL;
@@ -79,7 +67,9 @@ const ItemOfFour = ({ product_num, product_name, price }: ItemProps) => {
         <FourGridText isTitle={true}>{product_name}</FourGridText>
         <FourGridText isTitle={false}>{price}</FourGridText>
       </FourGridTextContainer>
-      <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      <GridImgContainer>
+        <GridImg src={`${publicUrl}/img/${product_num}.jpg`} />
+      </GridImgContainer>
     </FourGridComponent>
   );
 };
