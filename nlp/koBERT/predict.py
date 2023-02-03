@@ -22,11 +22,9 @@ def predict(config, text):
 
     tokenizer = KoBERTTokenizer.from_pretrained("skt/kobert-base-v1")
     tok = tokenizer.tokenize
-    bertmodel = BertModel.from_pretrained("skt/kobert-base-v1", return_dict=False)
     vocab = nlp.vocab.BERTVocab.from_sentencepiece(
         tokenizer.vocab_file, padding_token="[PAD]"
     )
-    print("토크나이저 불러오기")
 
     model = torch.load("./koBERT/koBERT_model/_batch64_epochs10.pt").to(device)
 
