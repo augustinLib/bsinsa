@@ -29,7 +29,8 @@ const ItemList = () => {
 
   const requestCategoryData = (ip?: string) => {
     // axios.get(`http://127.0.0.1:8001/product-data/${id}`).then((response) => {
-    axios.get(`http://127.0.0.1:8001/product-data/${id}`).then((response) => {
+    // axios.get(`http://127.0.0.1:8001/product-data/${id}`).then((response) => {
+    axios.get(`/api/category-data/${id}`).then((response) => {
       const pattern = /{(.*?)}/g;
       setFourData(
         response.data

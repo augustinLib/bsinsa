@@ -51,6 +51,13 @@ app.get("/api/item-data/:id", (req, res) => {
     .catch((error) => res.json({ error: error.message }));
 });
 
+app.get("/api/category-data/:category", (req, res) => {
+  axios
+  .get("http://0.0.0.0:8001/product_data/" + req.params.id)
+  .then((response) => res.json(response.data))
+  .catch((error) => res.json({ error: error.message }));
+})
+
 app.get("/api/initial-data", (req, res) => {
   axios
     .get("http://0.0.0.0:8001/initial-data")
@@ -107,7 +114,6 @@ app.get("/api/check-login", (req, res) => {
   if (req.session.user) {
     res.status(200).json({ isLoggedIn: true });
     console.log("Logged in");
-    console.log("Session: ", req.session);
   } else {
     res.status(500).json({ isLoggedIn: false });
   }
