@@ -73,6 +73,10 @@ const ImageContainer = styled.div<{ clicked: boolean }>`
   background: ${(props) => (props.clicked ? "#ee0260" : "white")};
   border-radius: 10px;
   cursor: pointer;
+  &:active {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
 `;
 
 const Image = styled.img`
@@ -164,8 +168,8 @@ const Initialization = () => {
 
   const searchApi = () => {
     axios
-      // .get("/api/initial-data")
-      .get("http://0.0.0.0:8001/initial-data/")
+      .get("/api/initial-data")
+      // .get("http://0.0.0.0:8001/initial-data/")
       .then((response) => {
         const temp = JSON.parse(response.data);
         for (const key in temp) {

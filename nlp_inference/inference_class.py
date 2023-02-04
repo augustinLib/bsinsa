@@ -295,7 +295,7 @@ def new_softmax(a):
 class LabelConfig():
     def __init__(self) -> None:
         self.gpu_id = 0
-
+        self.max_len = 64
      
 class NLPInference():
     def __init__(self):
@@ -322,7 +322,7 @@ class NLPInference():
              self.label_tokenizer.vocab_file, padding_token="[PAD]"
         )
         
-        self.label_model = torch.load("./model/_batch64_epochs10.pt").to(self.device)
+        self.label_model = torch.load("./model/_10epochs_batch_64.pt").to(self.device)
         
     
     def label_predict(self, text):
@@ -355,18 +355,18 @@ class NLPInference():
         }
 
         df = pd.DataFrame(data)
-        test_dataset = TagDataset(df,self.tag_config,predict=True)
+        test_dataset = TagDataset(df, predict=True)
         test_dataloader = DataLoader(test_dataset,batch_size=self.tag_config['BATCH_SIZE'],shuffle=False,num_workers=2)
         model = TagModel(self.tag_config,None,None,self.tag_label_dict,self.tag_index_to_ner)
         trainer = pl.Trainer(accelerator='auto',devices='auto',max_epochs=self.tag_config['EPOCHS'])
-        a = trainer.predict(model,test_dataloader,ckpt_path='./kobert_review_classification.ckpt')
+        a = trainer.predict(model,test_dataloader,ckpt_path='./model/kobert_review_classification.ckpt')
         
         result = self._convert(a)
         
         return result
         
         
-    def _convert(result):
+    def _convert(self, result):
         '''
         List[Tuple[List[List[str]]]]) -> Tuple(List[str],List[List[str]],List[List[int]]):
         return
@@ -414,6 +414,26 @@ class NLPInference():
                     
         return result_list
                     
-                    
+    def predict(self, text):
+        tag_result = self.tag_predict(text)
+        label_result = self.label_predict(text)
+    
+        if label_result == 1:
+            label_result = "보통이에요"
+
+        elif label_result == 2:
+            label_result = "좋아요"
+
+        else:
+            label_result = "별로에요"
+            
+        return_dict = {}
+        return_dict["tag"] = tag_result
+        return_dict["label"] = label_result
+        
+        return return_dict
+        
+
+
 
 

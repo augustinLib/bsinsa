@@ -10,7 +10,7 @@ const { User } = require("./Model/User");
 
 var app = express();
 
-app.use(cors({ credentials: true, origin: "http://10.0.2.2:3000" }));
+app.use(cors());
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.use(bodyParser.json());
 app.use(
@@ -157,6 +157,7 @@ app.post("/api/likes", (req, res) => {
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
+// 125.128.172.226
 
 app.listen(3000, "0.0.0.0", () => {
   console.log("Server started on port 3000");
