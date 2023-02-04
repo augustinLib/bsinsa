@@ -51,9 +51,9 @@ app.get("/api/item-data/:id", (req, res) => {
     .catch((error) => res.json({ error: error.message }));
 });
 
-app.get("/api/category-data/:category", (req, res) => {
+app.get("/api/category-data/:id", (req, res) => {
   axios
-  .get("http://0.0.0.0:8001/product_data/" + req.params.id)
+  .get("http://0.0.0.0:8001/product-data/" + req.params.id)
   .then((response) => res.json(response.data))
   .catch((error) => res.json({ error: error.message }));
 })
