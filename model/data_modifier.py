@@ -1,3 +1,4 @@
+### OLD 
 import os
 import pandas as pd
 
@@ -15,3 +16,5 @@ df.drop(rows_to_drop, inplace=True)
 
 # Drop the rows from the DataFrame
 df.to_csv("data/data_sample/dataframe/total_modified.csv", index=False)
+
+### NEW

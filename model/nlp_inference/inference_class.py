@@ -322,7 +322,7 @@ class NLPInference():
              self.label_tokenizer.vocab_file, padding_token="[PAD]"
         )
         
-        self.label_model = torch.load("./model/_10epochs_batch_64.pt").to(self.device)
+        self.label_model = torch.load("./nlp_inference/model/_10epochs_batch_64.pt").to(self.device)
         
     
     def label_predict(self, text):
@@ -359,7 +359,7 @@ class NLPInference():
         test_dataloader = DataLoader(test_dataset,batch_size=self.tag_config['BATCH_SIZE'],shuffle=False,num_workers=2)
         model = TagModel(self.tag_config,None,None,self.tag_label_dict,self.tag_index_to_ner)
         trainer = pl.Trainer(accelerator='auto',devices='auto',max_epochs=self.tag_config['EPOCHS'])
-        a = trainer.predict(model,test_dataloader,ckpt_path='./model/kobert_review_classification.ckpt')
+        a = trainer.predict(model,test_dataloader,ckpt_path='./nlp_inference/model/kobert_review_classification.ckpt')
         
         result = self._convert(a)
         
@@ -427,8 +427,13 @@ class NLPInference():
         else:
             label_result = "별로에요"
             
+        new_tag_result = []
+        tag_list = set(tag_result)
+        for i in tag_list:
+            new_tag_result.append(i)
+
         return_dict = {}
-        return_dict["tag"] = tag_result
+        return_dict["tag"] = new_tag_result
         return_dict["label"] = label_result
         
         return return_dict

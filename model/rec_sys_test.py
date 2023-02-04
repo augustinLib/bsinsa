@@ -2,12 +2,12 @@ import pickle
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 
-with open('data/data_sample/final_embeddings.pickle', 'rb') as f:
+with open('recsys/model/modelfile/final_embeddings.pickle', 'rb') as f:
         final_embedding = pickle.load(f)
 
 dist_mtx = euclidean_distances(final_embedding, final_embedding)
-close_list = dist_mtx[target_idx].argsort()[1:6]
 
+np.save("data/data_sample/dist-mtx", dist_mtx)
 data = np.load('data/data_sample/dist_mtx.npy')
 
 import pandas as pd

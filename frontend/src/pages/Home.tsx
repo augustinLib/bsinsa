@@ -39,7 +39,7 @@ const Home = () => {
 
   const searchApi = (ip?: string) => {
     axios
-      .get("api/home-data")
+      .get("/api/home-data")
       // .get("http://0.0.0.0:8001/home-data/")
       .then((response) => {
         const pattern = /{(.*?)}/g;

@@ -4,10 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from sample_model import Model
 from pymongo import MongoClient
 from bson.json_util import dumps
+from nlp_inference.inference_class import *
+from nlp_inference.get_new_review import *
 
 app = FastAPI()
 model = Model()
-
+nlp_model = NLPInference() 
 # origins = ["http://localhost:3000", "http://127.0.0.1:3000", "http://172.30.1.25:3000"]
 origins = ["*"]
 
@@ -49,3 +51,8 @@ async def get_users_in_mongo():
 @app.get('/get-similar/{userId}')
 async def get_similar(userId):
     return json.loads(dumps(model.get_similar_items(userId)))
+
+@app.get('/tag-label/{product_num}')
+async def get_tag_label(product_num):
+    review = get_review(product_num)
+    return json.loads(dumps(nlp_model.predict(review)))

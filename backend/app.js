@@ -38,10 +38,18 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/home-data", (req, res) => {
-  axios
+  if (req.session.user === undefined) {
+    axios
     .get("http://0.0.0.0:8001/home-data")
+    // .get("http://0.0.0.0:8001/get-similar/"+req.session)
     .then((response) => res.json(response.data))
     .catch((error) => res.json({ error: error.message }));
+  } else {
+    axios
+    .get("http://0.0.0.0:8001/get-similar/"+req.session.user)
+    .then((response) => res.json(response.data))
+    .catch((error) => res.json({ error: error.message }));}
+  
 });
 
 app.get("/api/item-data/:id", (req, res) => {
@@ -64,6 +72,13 @@ app.get("/api/initial-data", (req, res) => {
     .then((response) => res.json(response.data))
     .catch((error) => res.json({ error: error.message }));
 });
+
+app.get("/api/tag-label/:id", (req, res) => {
+  axios
+  .get("http://0.0.0.0:8001/tag-label/" + req.params.id)
+  .then((response) => res.json(response.data))
+  .catch((error) => res.json({error: error.message}));
+})
 
 app.post("/api/register", (req, res) => {
   const temp = { userId: req.body.id, password: req.body.password };
@@ -115,7 +130,7 @@ app.get("/api/check-login", (req, res) => {
     res.status(200).json({ isLoggedIn: true });
     console.log("Logged in");
   } else {
-    res.status(500).json({ isLoggedIn: false });
+    res.status(200).json({ isLoggedIn: false });
   }
 });
 
@@ -133,7 +148,7 @@ app.get("/api/user", (req, res) => {
       }
     });
   } else {
-    res.status(500).json({ isLoggedIn: false });
+    res.status(200).json({ isLoggedIn: false });
   }
 });
 
@@ -151,7 +166,7 @@ app.post("/api/likes", (req, res) => {
             if (user) {
               console.log("Liked", item);
             } else {
-              res.status(503).send("User not found");
+              res.status(200).send("User not found");
             }
           }
         }

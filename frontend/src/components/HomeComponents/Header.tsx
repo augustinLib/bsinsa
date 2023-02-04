@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Buttons/Button";
 import LogoButton from "../Buttons/Logo";
@@ -9,14 +9,18 @@ const Header = () => {
   const [isLogin, setIsLogin] = React.useState(false);
 
   useEffect(() => {
+    if (isLogin) {
+      setIsLogin(true);
+    } else {
     axios
-      .get("api/check-login")
+      .get("/api/check-login")
+      // .get("/api/user")
       .then((response) => {
         if (response.status === 200) {
           setIsLogin(response.data.isLoggedIn);
-          console.log("login successful");
+          console.log("login checked");
         } else {
-          console.log("login failed");
+          console.log("login checking failed");
         }
       })
       .catch((err) => {
@@ -25,11 +29,12 @@ const Header = () => {
           setIsLogin(false);
         }
       });
-  }, [isLogin]);
+    }
+  }, []);
 
   const handleLogout = () => {
     axios
-      .get("api/logout")
+      .get("/api/logout")
       .then((response) => {
         if (response.status === 200) {
           setIsLogin(false);
@@ -60,24 +65,6 @@ const Header = () => {
           }}
         />
         {isLogin ? (
-          <Button
-            text="PROFILE"
-            type="header"
-            onClick={() => {
-              navigate("/profile");
-            }}
-          />
-        ) : (
-          <Button
-            text="PROFILE"
-            type="header"
-            onClick={() => {
-              navigate("/login");
-            }}
-          />
-        )}
-
-        {isLogin ? (
           <Button text=" LOGOUT" type="header" onClick={handleLogout} />
         ) : (
           <Button
@@ -93,4 +80,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

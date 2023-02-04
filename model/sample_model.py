@@ -6,8 +6,9 @@ from pymongo import MongoClient
 
 class Model:
   def __init__(self):
-    self.data = pd.read_csv(".././data/data_sample/dataframe/total_modified.csv")
-    # self.rec_data = np.load(".././data/data_sample/dist_mtx.npy")
+    self.data = pd.read_csv(".././data/data_sample/dataframe/total_final.csv")
+    self.rec_data = np.load(".././data/data_sample/dist-mtx.npy")
+    self.index_finder = pd.read_csv(".././data/data_sample/dataframe/to_Dataloader.csv")[['product_num']]
     self.converter = {
       'hood': "후드",
       'knit': "니트",
@@ -51,5 +52,11 @@ class Model:
   def get_similar_items(self, userId):
     likes = self.db.users.find({'userId': userId})
     # likes에서 다 담아와서 sampling 하고 dist_mtx에서 처리해서 내보내기
-    liked_items = [doc[key] for key in self.converter.keys() for doc in likes]
-    return liked_items[0]
+    liked_items = [doc[key] for key in self.converter.keys() for doc in likes][0]
+    liked_indexes =  [self.index_finder[self.index_finder['product_num']==item].index.to_list()[0] for item in liked_items]
+    rec_products = []
+    for index in liked_indexes:
+      for i in  self.rec_data[index].argsort()[1:21]:
+        rec_products.append(self.index_finder.iloc[i].product_num)
+    to_return = self.data[self.data['product_num'].isin(rec_products)]
+    return to_return.sample(3)[['product_num', 'category', 'price']].to_json(orient='records')

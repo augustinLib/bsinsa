@@ -168,6 +168,7 @@ const Initialization = () => {
   const [data, setData] = React.useState<ItemProps>(emptyProps);
   const [liked, setLiked] = React.useState<ItemProps>(emptyProps);
   const [userId, setUserId] = React.useState("");
+
   const navigate = useNavigate();
 
   const searchApi = () => {
@@ -211,14 +212,18 @@ const Initialization = () => {
   const handleNext = () => {
     // categories[state as keyof CategoryKey].forEach((value) => {
     //   if (liked[value as keyof ItemProps].length === 0) {
-    //     alert("추천을 위해 더 많은 아이템을 골라주세요~");
+    //     console.log(liked[value as keyof ItemProps])
+    //     setNextOK(false);
+    //   } else {
+    //     setNextOK(true);
     //   }
     // });
     setNextClicked(true);
     setTimeout(() => {
-      setState(state + 1);
-      setNextClicked(false);
-    }, 1000);
+        setState(state + 1);
+        setNextClicked(false);
+      }, 1000);
+    
   };
 
   useEffect(() => {

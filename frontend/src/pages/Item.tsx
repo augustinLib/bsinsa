@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 
 import Header from "../components/HomeComponents/Header";
@@ -164,12 +164,20 @@ const DetailsContainer = styled.div`
 `;
 
 const Detail = styled.div`
+  display: flex;
   background: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   border: none;
 
   width: 100%;
+
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-align: center;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
 `;
 
 export interface ItemProp {
@@ -179,16 +187,27 @@ export interface ItemProp {
   category?: string;
 }
 
+interface TagLabelProp {
+  tag: string[];
+  label: string
+}
+
 const Item = () => {
   const { id = "100138" } = useParams();
   const navigate = useNavigate();
   const [liked, setLiked] = React.useState<ItemProps>(emptyProps);
+  const [likeClicked, setLikeClicked] = React.useState(false);  
   const [userId, setUserId] = React.useState("");
   const [data, setData] = useState<ItemProp>({
     product_name: "",
     price: "",
     product_num: 0,
   });
+
+  const [tagLabel, setTagLabel] = useState<TagLabelProp>({
+    tag: [],
+    label: ""
+  })
 
   const getKeyByValue = (obj: any, value: any) => {
     return Object.keys(obj).find((key) => obj[key] === value);
@@ -207,12 +226,15 @@ const Item = () => {
 
   // saved!
   const handleLike = () => {
-    const category = data.category;
-    const categoryEng = getKeyByValue(propMatcher, category);
-    const product_num = data.product_num;
-    const temp = { ...liked };
-    temp[categoryEng as keyof ItemProps].push(product_num);
-    setLiked(temp);
+    if (!likeClicked) {
+      const category = data.category;
+      const categoryEng = getKeyByValue(propMatcher, category);
+      const product_num = data.product_num;
+      const temp = { ...liked };
+      temp[categoryEng as keyof ItemProps].push(product_num);
+      setLiked(temp);
+      setLikeClicked(true);
+    } 
   };
 
   const searchItem = () => {
@@ -228,9 +250,18 @@ const Item = () => {
     });
   };
 
+  const getTagLabel = () => {
+    axios.get(`/api/tag-label/${id}`).then((response) => {
+      setTagLabel(
+        response.data
+      );
+    });
+  }
+
   useEffect(() => {
     searchItem();
     getUser();
+    getTagLabel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -282,10 +313,10 @@ const Item = () => {
           </ItemDescContainer>
           <DetailsContainer>
             <Detail>
-              <h1>Tags</h1>
+              {tagLabel.tag ? tagLabel.tag : "태그가 없습니다"}
             </Detail>
             <Detail>
-              <h1>Opinions</h1>
+              {tagLabel.label !== "" ? tagLabel.label : "로딩 중입니다"}
             </Detail>
           </DetailsContainer>
         </RightContainer>
