@@ -363,5 +363,8 @@ model.kor2vec.*
 lightning_logs/
 summary_text_corpus.csv.sampled
 modelfile/
+*.tar
+*.pt
+*.ckpt
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,pycharm,jupyternotebooks,python
