@@ -1,6 +1,9 @@
+import json
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sample_model import Model
+from pymongo import MongoClient
+from bson.json_util import dumps
 
 app = FastAPI()
 model = Model()
@@ -32,11 +35,12 @@ async def item(product_num: int):
 async def test():
     return model.test_mongo()
 
-import json
-from pymongo import MongoClient
-client = MongoClient('mongodb://localhost:27017',5555)
+@app.get("/initial-data")
+async def initial():
+    return model.get_initial_item()
+    
+client = MongoClient('mongodb://localhost:27017', 5555)
 db = client['conference']
-from bson.json_util import dumps
 @app.get('/mongo')
 async def get_users_in_mongo():
     items = db['item']

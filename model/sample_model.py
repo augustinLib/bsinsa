@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 class Model:
   def __init__(self):
@@ -34,3 +35,9 @@ class Model:
 
   def get_item(self, product_num):
     return self.data[self.data['product_num'] == product_num][['product_num', 'product_name', 'price']].to_json(orient='records')
+
+  def get_initial_item(self):
+    to_return = {}
+    for key, _ in self.converter.items():
+      to_return[key] = self.data[self.data['category'] == self.converter[key]].sample(6)['product_num'].to_json(orient='records')
+    return json.dumps(to_return)

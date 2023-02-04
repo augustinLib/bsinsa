@@ -18,7 +18,26 @@ export type propMatcherProps = {
   etc: string;
 };
 
-const propMatcher: propMatcherProps = {
+export interface ItemProps {
+  hood: number[];
+  knit: number[];
+  long: number[];
+  polo: number[];
+  shirt: number[];
+  short: number[];
+  sleeveless: number[];
+  sweat: number[];
+  cotton: number[];
+  denim: number[];
+  jogger: number[];
+  jumper: number[];
+  leggings: number[];
+  shorts: number[];
+  slacks: number[];
+  etc: number[];
+}
+
+export const propMatcher: propMatcherProps = {
   "": "BSINSA",
   hood: "후드",
   knit: "니트",
@@ -36,6 +55,25 @@ const propMatcher: propMatcherProps = {
   shorts: "반바지",
   slacks: "슬랙스",
   etc: "기타 바지",
+};
+
+export const emptyProps = {
+  hood: [],
+  knit: [],
+  long: [],
+  polo: [],
+  shirt: [],
+  short: [],
+  sleeveless: [],
+  sweat: [],
+  cotton: [],
+  denim: [],
+  jogger: [],
+  jumper: [],
+  leggings: [],
+  shorts: [],
+  slacks: [],
+  etc: [],
 };
 
 export default propMatcher;

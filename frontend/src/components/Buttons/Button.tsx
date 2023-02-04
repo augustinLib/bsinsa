@@ -32,6 +32,7 @@ export const HeaderButton = styled.button<{ typeOf: "header" | "navigation" }>`
   &:hover {
     color: #ee0260;
     font-weight: 900;
+    cursor: pointer;
   }
 `;
 

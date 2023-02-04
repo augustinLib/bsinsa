@@ -2,19 +2,28 @@ var express = require("express");
 var path = require("path");
 const cors = require("cors");
 const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 const mongoose = require("mongoose");
+const axios = require("axios");
+const bodyParser = require("body-parser");
+const { User } = require("./Model/User");
 
 var app = express();
 
 app.use(cors({ credentials: true, origin: "http://10.0.2.2:3000" }));
 app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.use(bodyParser.json());
 app.use(
   session({
     secret: "MySecret",
     resave: false,
     saveUninitialized: true,
+    store: new MemoryStore({}),
+    cookie: { maxAge: 86400000 },
   })
 );
+
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/api", (req, res) => {
   const { Item } = require("./Model/Image");
@@ -27,20 +36,30 @@ app.get("/api", (req, res) => {
       console.log("Error: ", err);
     });
 });
-const axios = require("axios");
-app.get("/api/data", (req, res) => {
+
+app.get("/api/home-data", (req, res) => {
   axios
-    .get("http://0.0.0.0:8000/home-data")
+    .get("http://0.0.0.0:8001/home-data")
     .then((response) => res.json(response.data))
     .catch((error) => res.json({ error: error.message }));
 });
 
-const bodyParser = require("body-parser");
-const { User } = require("./Model/User");
-app.use(bodyParser.json());
+app.get("/api/item-data/:id", (req, res) => {
+  axios
+    .get("http://0.0.0.0:8001/item/" + req.params.id)
+    .then((response) => res.json(response.data))
+    .catch((error) => res.json({ error: error.message }));
+});
+
+app.get("/api/initial-data", (req, res) => {
+  axios
+    .get("http://0.0.0.0:8001/initial-data")
+    .then((response) => res.json(response.data))
+    .catch((error) => res.json({ error: error.message }));
+});
 
 app.post("/api/register", (req, res) => {
-  const temp = { userId: req.body.id, password: req.body.password, likes: [] };
+  const temp = { userId: req.body.id, password: req.body.password };
   const NewUser = new User(temp);
   NewUser.save((err, savedForm) => {
     if (err) {
@@ -75,6 +94,64 @@ app.post("/api/login", (req, res) => {
       }
     }
   });
+});
+
+app.get("/api/logout", (req, res) => {
+  req.session.destroy(() => req.session);
+  res.status(200).send("Logged out");
+  console.log("Logged out");
+  console.log("Session: ", req.session);
+});
+
+app.get("/api/check-login", (req, res) => {
+  if (req.session.user) {
+    res.status(200).json({ isLoggedIn: true });
+    console.log("Logged in");
+    console.log("Session: ", req.session);
+  } else {
+    res.status(500).json({ isLoggedIn: false });
+  }
+});
+
+app.get("/api/user", (req, res) => {
+  if (req.session.user) {
+    User.findOne({ userId: req.session.user }, (err, user) => {
+      if (err) {
+        console.log(err);
+      } else {
+        if (user) {
+          res.status(200).json({ user: user });
+        } else {
+          res.status(503).send("User not found");
+        }
+      }
+    });
+  } else {
+    res.status(500).json({ isLoggedIn: false });
+  }
+});
+
+app.post("/api/likes", (req, res) => {
+  const { userId, liked } = req.body;
+  for (const key in liked) {
+    liked[key].map((item) => {
+      User.findOneAndUpdate(
+        { userId: userId },
+        { $addToSet: { [key]: item } },
+        (err, user) => {
+          if (err) {
+            console.log(err);
+          } else {
+            if (user) {
+              console.log("Liked", item);
+            } else {
+              res.status(503).send("User not found");
+            }
+          }
+        }
+      );
+    });
+  }
 });
 
 app.get("*", function (req, res) {

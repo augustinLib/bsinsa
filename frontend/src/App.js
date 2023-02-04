@@ -9,6 +9,7 @@ import ItemList from "./pages/ItemList";
 import Item from "./pages/Item";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Initialization from "./pages/Initialization";
 
 function App() {
   const [user, setUser] = useState(sessionStorage.getItem("token"));
@@ -33,6 +34,7 @@ function App() {
             <Route path="/item/:id" element={<Item />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/initial" element={<Initialization />} />
           </Routes>
         </div>
       </BrowserRouter>

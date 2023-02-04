@@ -39,7 +39,8 @@ const Home = () => {
 
   const searchApi = (ip?: string) => {
     axios
-      .get("api/data")
+      .get("api/home-data")
+      // .get("http://0.0.0.0:8001/home-data/")
       .then((response) => {
         const pattern = /{(.*?)}/g;
         setData(
@@ -52,16 +53,6 @@ const Home = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    // axios.get("http://127.0.0.1:8000/home-data").then((response) => {
-    //   const pattern = /{(.*?)}/g;
-    //   setData(
-    //     response.data
-    //       .slice(1, -1)
-    //       .match(pattern)
-    //       .map((item: string) => JSON.parse(item))
-    //   );
-    // });
   };
 
   useEffect(() => {

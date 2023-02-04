@@ -85,7 +85,7 @@ const Register = () => {
         if (response.status === 200) {
           sessionStorage.setItem("token", response.data);
           alert("회원가입이 완료되었습니다.");
-          navigate("/login");
+          navigate("/login?init=true");
         }
       })
       .catch((err) => {
