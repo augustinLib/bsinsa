@@ -56,7 +56,7 @@ class Model:
     liked_indexes =  [self.index_finder[self.index_finder['product_num']==item].index.to_list()[0] for item in liked_items]
     rec_products = []
     for index in liked_indexes:
-      for i in  self.rec_data[index].argsort()[1:21]:
+      for i in  self.rec_data[index].argsort()[1:10]:
         rec_products.append(self.index_finder.iloc[i].product_num)
     to_return = self.data[self.data['product_num'].isin(rec_products)]
     return to_return.sample(3)[['product_num', 'category', 'price']].to_json(orient='records')

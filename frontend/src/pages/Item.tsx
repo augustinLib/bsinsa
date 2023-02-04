@@ -172,12 +172,14 @@ const Detail = styled.div`
 
   width: 100%;
 
-  font-size: 1.2rem;
+  font-size: x-large;
   font-weight: 900;
   text-align: center;
   vertical-align: middle;
   justify-content: center;
   align-items: center;
+
+  white-space: pre-wrap;
 `;
 
 export interface ItemProp {
@@ -313,7 +315,7 @@ const Item = () => {
           </ItemDescContainer>
           <DetailsContainer>
             <Detail>
-              {tagLabel.tag ? tagLabel.tag : "태그가 없습니다"}
+              {tagLabel.tag.length !== 0 ? tagLabel.tag.map((item) => item + `\n`) : "로딩 중입니다"}
             </Detail>
             <Detail>
               {tagLabel.label !== "" ? tagLabel.label : "로딩 중입니다"}

@@ -431,7 +431,10 @@ class NLPInference():
         tag_list = set(tag_result)
         for i in tag_list:
             new_tag_result.append(i)
-
+        
+        if len(new_tag_result) == 0:
+            new_tag_result= ["태그가 없습니다"]
+        
         return_dict = {}
         return_dict["tag"] = new_tag_result
         return_dict["label"] = label_result
