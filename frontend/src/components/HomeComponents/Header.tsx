@@ -51,6 +51,7 @@ const Header = () => {
         <LogoButton />
       </div>
       <div className="header-button-box">
+<<<<<<< HEAD
         <Button text="HOME" type="header" onClick={() => {}} />
         <Button
           text="EXPLORE"
@@ -59,6 +60,10 @@ const Header = () => {
             navigate("/initial");
           }}
         />
+=======
+        <Button text="RECOMMENDATION" type="header" onClick={() => {}} />
+        <Button text="EXPLORE" type="header" onClick={() => {navigate("/initial")}} />
+>>>>>>> 159f3e53ab0569d98fff942a745fe2488732caf1
         {isLogin ? (
           <Button
             text="PROFILE"
