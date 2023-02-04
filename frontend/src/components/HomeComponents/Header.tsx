@@ -69,7 +69,7 @@ const Header = () => {
           />
         ) : (
           <Button
-            text=" PROFILE"
+            text="PROFILE"
             type="header"
             onClick={() => {
               navigate("/login");
