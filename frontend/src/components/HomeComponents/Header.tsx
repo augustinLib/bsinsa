@@ -51,8 +51,14 @@ const Header = () => {
         <LogoButton />
       </div>
       <div className="header-button-box">
-        <Button text="RECOMMENDATION" type="header" onClick={() => {}} />
-        <Button text="EXPLORE" type="header" onClick={() => {}} />
+        <Button text="HOME" type="header" onClick={() => {}} />
+        <Button
+          text="EXPLORE"
+          type="header"
+          onClick={() => {
+            navigate("/initial");
+          }}
+        />
         {isLogin ? (
           <Button
             text="PROFILE"

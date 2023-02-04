@@ -7,6 +7,7 @@ import { NavContainer } from "./Home";
 import { PageDescTextContainer } from "../components/HomeComponents/PageDesc";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { emptyProps, ItemProps, propMatcher } from "../etc/propMatcher";
 
 const HomeContainer = styled.div`
   display: grid;
@@ -146,6 +147,11 @@ const Button = styled.button<{ loc: "left" | "center" | "right" }>`
     font-style: italic;
     cursor: pointer;
   }
+
+  &:active {
+    margin-left: 5px;
+    margin-top: 5px;
+  }
 `;
 
 const DetailsContainer = styled.div`
@@ -170,19 +176,42 @@ export interface ItemProp {
   product_num: number;
   product_name: string;
   price: string;
+  category?: string;
 }
 
 const Item = () => {
   const { id = "100138" } = useParams();
   const navigate = useNavigate();
+  const [liked, setLiked] = React.useState<ItemProps>(emptyProps);
+  const [userId, setUserId] = React.useState("");
   const [data, setData] = useState<ItemProp>({
     product_name: "",
     price: "",
     product_num: 0,
   });
 
+  const getKeyByValue = (obj: any, value: any) => {
+    return Object.keys(obj).find((key) => obj[key] === value);
+  };
+
+  const getUser = () => {
+    axios
+      .get("/api/user")
+      .then((response) => {
+        setUserId(response.data.user.userId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleLike = () => {
-    console.log("like");
+    const category = data.category;
+    const categoryEng = getKeyByValue(propMatcher, category);
+    const product_num = data.product_num;
+    const temp = { ...liked };
+    temp[categoryEng as keyof ItemProps].push(product_num);
+    setLiked(temp);
   };
 
   const searchItem = () => {
@@ -200,8 +229,23 @@ const Item = () => {
 
   useEffect(() => {
     searchItem();
+    getUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    axios
+      .post("/api/likes", {
+        userId: userId,
+        liked: liked,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [liked, userId]);
 
   return (
     <div className="home">

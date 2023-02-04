@@ -45,3 +45,7 @@ db = client['conference']
 async def get_users_in_mongo():
     items = db['item']
     return json.loads(dumps(items.find().limit(20)))
+
+@app.get('/get-similar/{userId}')
+async def get_similar(userId):
+    return json.loads(dumps(model.get_similar_items(userId)))

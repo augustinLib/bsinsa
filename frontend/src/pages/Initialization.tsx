@@ -73,6 +73,10 @@ const ImageContainer = styled.div<{ clicked: boolean }>`
   background: ${(props) => (props.clicked ? "#ee0260" : "white")};
   border-radius: 10px;
   cursor: pointer;
+  &:active {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
 `;
 
 const Image = styled.img`
@@ -93,6 +97,10 @@ const NextButton = styled.button`
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
+  &:active {
+    font-weight: 900;
+    background: #ee0260;
+  }
 `;
 
 interface ArrayProps {
@@ -164,8 +172,8 @@ const Initialization = () => {
 
   const searchApi = () => {
     axios
-      // .get("/api/initial-data")
-      .get("http://0.0.0.0:8001/initial-data/")
+      .get("/api/initial-data")
+      // .get("http://0.0.0.0:8001/initial-data/")
       .then((response) => {
         const temp = JSON.parse(response.data);
         for (const key in temp) {
@@ -201,6 +209,11 @@ const Initialization = () => {
   };
 
   const handleNext = () => {
+    // categories[state as keyof CategoryKey].forEach((value) => {
+    //   if (liked[value as keyof ItemProps].length === 0) {
+    //     alert("추천을 위해 더 많은 아이템을 골라주세요~");
+    //   }
+    // });
     setNextClicked(true);
     setTimeout(() => {
       setState(state + 1);
@@ -270,7 +283,9 @@ const Initialization = () => {
               />
             ))}
         </InitHome>
-        <NextButton onClick={handleNext}>NEXT</NextButton>
+        <NextButton onClick={handleNext}>
+          CHOOSE ITEMS YOU LIKE AND CLICK HERE
+        </NextButton>
       </BackGround>
     </>
   );
