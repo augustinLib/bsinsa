@@ -1,67 +1,46 @@
-# ⚡Bitamin 9th NLP/RS Conference⚡
+# ![Title](https://capsule-render.vercel.app/api?type=transparent&fontColor=000000&text=NLP-RecSys%20Based%20Fashion%20E-Commerce%20Demo%20&height=200&fontSize=35&desc=Bitamin%209th%20Conference%202023%20%20&descAlignY=76&descAlign=50)
 
-## requirements 사용법
-1. 원하는 가상환경 activate
-2. requirements.txt가 있는 경로로 이동 (중요) (cd 명령어로 requirements.txt가 있는 곳으로 이동)
-3. `pip install -r requirements.txt`
-4. 끝
+## Abstract
 
-## pip freeze 사용법
-### pip freeze란?
-현재 활성화(activated)된 환경(대부분은 가상환경)에 설치된 패키지들의 목록을 나열해줌
-이것을 requirements.txt로 뺄 수 있는데 명령어는 다음과 같다
-`pip freeze > requirements.txt`
-이러면 터미널 상 현재 디렉토리에 requirements.txt가 생성된다.
+**NLP Recommendation System Based Fashion E-Commerce Platform Demo** built with Pytorch, Huggingface, React, Express, FastAPI.
 
-## git branch
-### 브랜치 생성
-`git branch "새로 만들 브랜치 이름"`  
-**주의해야 할 점** : 브랜치 만들때는 현재 브랜치 기준으로 복사됨(main으로 이동 후 생성 권장!!!!!)
+<div align="center">
+<img src=images/demo1.gif width="574" height="331"/> <br> 
+<img src=images/demo2.gif width="574" height="331"/> <br> 
+</div>
 
-### 브랜치 이동
-`git checkout "이동할 브랜치 이름"`  
+## Introduction
 
-### 브랜치 명명 규칙
-"feature_#XX/자신의 깃허브 닉네임"
-여기서 #XX은 이슈번호
-feature_#4/augustinLib
+This GitHub repository contains the source code for our fashion e-commerce website demo, which serves various AI technologies that could be implemented in the web fashion platform. Our website features recommendation systems based on user likes, the ability to find similar items, and review summaries. These AI models are served with FastAPI, while the frontend is built with React and the backend with ExpressJS. We utilized Selenium to gather data such as images and item details, ensuring our AI models are provided with relevant information. The website has an intuitive and user-friendly interface that allows users to easily navigate and find their desired items. <br> <br>
 
----
+## Data
 
-## Datasets
+We extracted 45,000 product information and photos, and 700,000 product review informations using Selenium. For more information, visit [this repository](https://github.com/augustinLib/GitHub-crawling-session). <br> [Data column] Name, Brand, Likes, Sales, Review Score, Price<br><br>
 
-- [Large-scale Fashion (DeepFashion) Database](http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html)
+## Recommendation System
 
-- [Deep Fashion 2 Dataset](https://github.com/switchablenorms/DeepFashion2)
+Our recommendation system consist of three parts.
 
-- [Perfume Recommendation](https://www.kaggle.com/datasets/nandini1999/perfume-recommendation-dataset)
+- Image + Category Created an image feature (embedding vector) extractor that incorporates category labels using a MobileNet, whose purpose is to speed up the training and inference.
+- Image + Tag Created an image feature (embedding vector) extractor that incorporates tags using the Show and Tell model. To process the Korean, which is a agglutinative language, we used skip-gram based embedding.
+- Similarity Concatenated the Image + Category and Image + Tag models and calculated Euclidean distance to recommend the 5 most similar items.
 
-- [Fashion Gen](https://paperswithcode.com/dataset/fashion-gen)
+<div align="center">
+<img src=images/rec_model1.png width="575" height="370"/> 
+<p> [Fig. 1] Model Structure </p>
+<img src=images/rec_model2.png width="575" height="370"/> 
+<p> [Fig. 2] Similarity Result </p>
+</div>
 
+## Review Summarization
 
----
-## Models
+Our review summarization system consist of two parts.
 
-- [Fashion AI Bookmarks](https://github.com/ayushidalmia/awesome-fashion-ai)
+- Text Review to Score : Using koBERT's cls tokens, we finetuned the model to classify review text of an item to score, 1 to 5.
+- Review Keyword Extraction : Using Khaiii tokenizer, seed word, Skip-gram, We finetuned koBERT with 5M sentence with 54 words.
 
-- [Try-On Model Using GAN](https://github.com/switchablenorms/DeepFashion_Try_On)
+## Web Development
 
-- [Fashion Recommendation Model 1](https://github.com/kang205/DVBPR)
-
-- [Fashion Recommendation Model 2](https://github.com/khanhnamle1994/fashion-recommendation)
-
-- [Fashion Recommendation Model 3](https://github.com/Wp-Zhang/H-M-Fashion-RecSys)
-
-- [Fashion Descriptor Generator for Embedding](https://github.com/bobbens/cvpr2016_stylenet)
-
---- 
-## Tools
-
-- [Fashion Key-Point Detection](https://github.com/gathierry/FashionAI-KeyPointsDetectionOfApparel)
-
----
-## Lookups
-
-- [(Kaggle)H&M Personalized Fashion Recommendations Competition](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations)
-
-- [Fashion Curation Repo](https://github.com/WangXin93/curated-fashion-ai)
+- Frontend : React JS with Typescript
+- Backend : Express JS with MongoDB
+- AI Model : FastAPI
